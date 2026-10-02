@@ -1,0 +1,3331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookBoomerang</title>
+
+    <style>
+        :root {
+            --bg-darker:#21201e;
+            --bg-dark:#262522;
+            --bg-card:#312e2b;
+            --text-main:#fff;
+            --text-muted:#bababa;
+            --green:#81b64c;
+            --green-hover:#a3d86c;
+            --blue:#4586c6;
+            --red:#e74c3c;
+            --orange:#f39c12;
+            --border:#403e3a;
+        }
+
+        * {
+            box-sizing:border-box;
+        }
+
+        html,body {
+            margin:0;
+            min-height:100%;
+            background:var(--bg-darker);
+            color:var(--text-main);
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+        }
+
+        button,input,select {
+            font:inherit;
+        }
+
+        body {
+            display:flex;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width:245px;
+            min-height:100vh;
+            background:var(--bg-dark);
+            border-right:1px solid var(--border);
+            display:flex;
+            flex-direction:column;
+            flex-shrink:0;
+            position:sticky;
+            top:0;
+        }
+
+        .logo {
+            padding:23px;
+            color:var(--green);
+            font-size:1.35rem;
+            font-weight:800;
+            border-bottom:1px solid var(--border);
+        }
+
+        .nav {
+            display:flex;
+            flex-direction:column;
+            gap:5px;
+            padding:15px 10px;
+        }
+
+        .nav button {
+            border:0;
+            background:transparent;
+            color:var(--text-muted);
+            padding:13px 15px;
+            border-radius:7px;
+            text-align:left;
+            cursor:pointer;
+            font-weight:600;
+            transition:.2s;
+        }
+
+        .nav button:hover {
+            background:#302e2a;
+            color:#fff;
+        }
+
+        .nav button.active {
+            background:#2f2c29;
+            color:#fff;
+            border-left:4px solid var(--green);
+        }
+
+        .signout {
+            margin-top:auto;
+            color:#ff6b6b !important;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex:1;
+            min-width:0;
+            padding:35px;
+        }
+
+        .header {
+            margin-bottom:25px;
+        }
+
+        .header h1 {
+            margin:0 0 5px;
+            font-size:2rem;
+        }
+
+        .header p {
+            margin:0;
+            color:var(--text-muted);
+        }
+
+        .page {
+            display:none;
+        }
+
+        .page.active {
+            display:block;
+        }
+
+        /* ================= CARDS ================= */
+
+        .card {
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:10px;
+            padding:24px;
+            margin-bottom:22px;
+            box-shadow:0 8px 18px rgba(0,0,0,.25);
+        }
+
+        .card-title {
+            margin:0 0 20px;
+            padding-bottom:12px;
+            border-bottom:1px solid var(--border);
+            color:var(--text-muted);
+            font-size:1rem;
+            text-transform:uppercase;
+            letter-spacing:.5px;
+        }
+
+        /* ================= DASHBOARD ================= */
+
+        .stats {
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:18px;
+        }
+
+        .stat {
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-radius:9px;
+            padding:20px;
+        }
+
+        .stat-number {
+            font-size:2rem;
+            font-weight:800;
+        }
+
+        .stat-label {
+            color:var(--text-muted);
+            margin-top:5px;
+        }
+
+        .dashboard-grid {
+            display:grid;
+            grid-template-columns:2fr 1fr;
+            gap:22px;
+            margin-top:22px;
+        }
+
+        /* ================= BOOKS ================= */
+
+        .book-list {
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+
+        .book {
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-radius:8px;
+            padding:17px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:15px;
+        }
+
+        .book-info h3 {
+            margin:0 0 6px;
+        }
+
+        .book-info p {
+            margin:4px 0;
+            color:var(--text-muted);
+            font-size:.9rem;
+        }
+
+        .badge {
+            display:inline-block;
+            padding:5px 10px;
+            border-radius:20px;
+            font-size:.75rem;
+            font-weight:700;
+        }
+
+        .badge-green {
+            background:rgba(129,182,76,.15);
+            color:#9ddd68;
+        }
+
+        .badge-orange {
+            background:rgba(243,156,18,.15);
+            color:#ffb43e;
+        }
+
+        .badge-red {
+            background:rgba(231,76,60,.15);
+            color:#ff7467;
+        }
+
+        .empty {
+            text-align:center;
+            color:var(--text-muted);
+            padding:40px 15px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn {
+            background:var(--green);
+            color:#fff;
+            border:0;
+            border-radius:6px;
+            padding:11px 17px;
+            cursor:pointer;
+            font-weight:700;
+        }
+
+        .btn:hover {
+            background:var(--green-hover);
+        }
+
+        .btn-danger {
+            background:var(--red);
+        }
+
+        .btn-secondary {
+            background:#3b3935;
+        }
+
+        /* ================= FORMS ================= */
+
+        .form-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:18px;
+        }
+
+        .field {
+            display:flex;
+            flex-direction:column;
+            gap:7px;
+        }
+
+        .field.full {
+            grid-column:1 / -1;
+        }
+
+        .field label {
+            color:var(--text-muted);
+            font-size:.85rem;
+            font-weight:600;
+        }
+
+        input,select {
+            width:100%;
+            padding:12px;
+            border-radius:6px;
+            border:1px solid var(--border);
+            background:var(--bg-dark);
+            color:white;
+            outline:none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color:var(--green);
+        }
+
+        /* ================= NOTIFICATIONS ================= */
+
+        .notification {
+            display:flex;
+            align-items:center;
+            gap:15px;
+            padding:17px 0;
+            border-bottom:1px solid var(--border);
+        }
+
+        .notification:last-child {
+            border-bottom:0;
+        }
+
+        .notification-icon {
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:#3a3834;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .notification-content {
+            flex:1;
+        }
+
+        .notification-content strong {
+            display:block;
+        }
+
+        .notification-content span {
+            color:var(--text-muted);
+            font-size:.85rem;
+        }
+
+        .switch {
+            position:relative;
+            width:50px;
+            height:26px;
+        }
+
+        .switch input {
+            opacity:0;
+            width:0;
+            height:0;
+        }
+
+        .slider {
+            position:absolute;
+            inset:0;
+            background:#44413c;
+            border-radius:20px;
+            cursor:pointer;
+        }
+
+        .slider:before {
+            content:"";
+            position:absolute;
+            width:20px;
+            height:20px;
+            left:3px;
+            top:3px;
+            background:#fff;
+            border-radius:50%;
+            transition:.2s;
+        }
+
+        .switch input:checked + .slider {
+            background:var(--green);
+        }
+
+        .switch input:checked + .slider:before {
+            transform:translateX(24px);
+        }
+
+        /* ================= AUTH ================= */
+
+        .auth-overlay {
+            position:fixed;
+            inset:0;
+            background:rgba(10,10,10,.94);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            z-index:10000;
+            padding:20px;
+        }
+
+        .auth-overlay.hidden {
+            display:none;
+        }
+
+        .auth-box {
+            width:100%;
+            max-width:430px;
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:30px;
+            box-shadow:0 15px 40px rgba(0,0,0,.6);
+        }
+
+        .auth-logo {
+            text-align:center;
+            color:var(--green);
+            font-size:1.6rem;
+            font-weight:800;
+            margin-bottom:20px;
+        }
+
+        .auth-tabs {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            background:var(--bg-dark);
+            border-radius:7px;
+            padding:4px;
+            margin-bottom:25px;
+        }
+
+        .auth-tabs button {
+            border:0;
+            background:transparent;
+            color:var(--text-muted);
+            padding:11px;
+            cursor:pointer;
+            border-radius:5px;
+            font-weight:700;
+        }
+
+        .auth-tabs button.active {
+            background:var(--green);
+            color:white;
+        }
+
+        .auth-panel {
+            display:none;
+        }
+
+        .auth-panel.active {
+            display:block;
+        }
+
+        .auth-message {
+            min-height:20px;
+            color:#ff7777;
+            font-size:.85rem;
+            margin-top:10px;
+        }
+
+        .auth-footer {
+            text-align:center;
+            color:var(--text-muted);
+            font-size:.8rem;
+            margin-top:20px;
+        }
+
+        /* ================= TOAST ================= */
+
+        .toast {
+            position:fixed;
+            right:25px;
+            bottom:25px;
+            background:#383531;
+            border:1px solid var(--border);
+            padding:14px 18px;
+            border-radius:8px;
+            box-shadow:0 10px 25px rgba(0,0,0,.4);
+            transform:translateY(100px);
+            opacity:0;
+            transition:.25s;
+            z-index:20000;
+        }
+
+        .toast.show {
+            transform:translateY(0);
+            opacity:1;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:950px) {
+
+            body {
+                flex-direction:column;
+            }
+
+            .sidebar {
+                width:100%;
+                min-height:auto;
+                position:relative;
+            }
+
+            .nav {
+                flex-direction:row;
+                flex-wrap:wrap;
+            }
+
+            .nav button {
+                flex:1;
+                min-width:120px;
+            }
+
+            .signout {
+                margin-top:0;
+            }
+
+            .main {
+                padding:20px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media(max-width:650px) {
+
+            .stats {
+                grid-template-columns:1fr 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns:1fr;
+            }
+
+            .field.full {
+                grid-column:auto;
+            }
+
+            .book {
+                flex-direction:column;
+                align-items:flex-start;
+            }
+
+            .book .btn {
+                width:100%;
+            }
+        }
+
+        @media(max-width:450px) {
+
+            .stats {
+                grid-template-columns:1fr;
+            }
+        }
+        /*   POPUP         */
+        .profile-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            z-index: 10000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .profile-popup.hidden {
+            display: none !important;
+        }
+
+        .profile-popup-card {
+            width: 100%;
+            max-width: 430px;
+
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            padding: 30px;
+            text-align: center;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+
+            animation: popupIn 0.2s ease-out;
+        }
+
+        .popup-icon {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(129, 182, 76, 0.15);
+            border: 1px solid rgba(129, 182, 76, 0.3);
+
+            border-radius: 50%;
+
+            font-size: 30px;
+        }
+
+        .profile-popup-card h2 {
+            margin: 0 0 12px;
+            font-size: 1.5rem;
+        }
+
+        .profile-popup-card p {
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+
+        .profile-popup-card .popup-muted {
+            font-size: 0.9rem;
+        }
+
+        .popup-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .popup-actions .btn {
+            flex: 1;
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        /* ================= BORROW BOOK ================= */
+
+        .borrow-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .borrow-form .full {
+            grid-column: 1 / -1;
+        }
+
+        .timer {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            text-align: center;
+        }
+
+        .timer-title {
+            color: var(--text-muted);
+            font-size: .85rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .timer-book {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .timer-value {
+            color: var(--green);
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .timer-value.overdue {
+            color: var(--red);
+        }
+
+        @media(max-width:650px) {
+            .borrow-form {
+                grid-template-columns: 1fr;
+            }
+
+            .borrow-form .full {
+                grid-column: auto;
+            }
+
+            .timer-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        BookBoomerang.com
+    </div>
+
+    <nav class="nav">
+
+        <button class="active"
+                onclick="showPage('dashboard',this)">
+            Dashboard
+        </button>
+
+        <button onclick="showPage('borrow',this)">
+            Borrow a Book
+        </button>
+
+        <button onclick="showPage('books',this)">
+            My Books
+        </button>
+
+        <button onclick="showPage('history',this)">
+            History
+        </button>
+
+        <button onclick="showPage('notifications',this)">
+            Notifications
+        </button>
+
+        <button onclick="showPage('profile',this)">
+            Profile
+        </button>
+
+        <button onclick="showPage('settings',this)">
+            Settings
+        </button>
+
+        <button class="signout"
+                onclick="signOut()">
+            Sign Out
+        </button>
+
+    </nav>
+
+</aside>
+
+<!--============================
+Popup
+=============================-->
+<div id="profilePopup" class="profile-popup hidden">
+    <div class="profile-popup-card">
+        <div class="popup-icon">Profile is Incomplete</div>
+
+        <h2>Complete Your Profile</h2>
+
+        <p>
+            Your account has been created successfully, but your library
+            profile is incomplete.
+        </p>
+
+        <p class="popup-muted">
+            Complete your profile to start using all library features.
+        </p>
+
+        <div class="popup-actions">
+            <button class="btn" onclick="completeProfile()">
+                Complete Profile
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="closeProfilePopup()">
+                Later
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+    <header class="header">
+
+        <h1 id="pageTitle">
+            Dashboard
+        </h1>
+
+        <p id="pageSubtitle">
+            Your library overview
+        </p>
+
+    </header>
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================== -->
+
+    <section id="dashboard" class="page active">
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-number"
+                     id="statBorrowed">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Books Borrowed
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-number"
+                     id="statDue">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Due Soon
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-number"
+                     id="statHistory">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Returned Books
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-number"
+                     id="statNotifications">
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Notifications
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    Currently Borrowed
+                </h2>
+
+                <div id="dashboardBooks"
+                     class="book-list">
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h2 class="card-title">
+                    Account
+                </h2>
+
+                <p>
+                    <strong>Username:</strong>
+                    <span id="dashboardUsername">-</span>
+                </p>
+
+                <p>
+                    <strong>Patron:</strong>
+                    <span id="dashboardName">Not configured</span>
+                </p>
+
+                <p>
+                    <strong>Library:</strong>
+                    <span id="dashboardLibrary">Not configured</span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- =================================================
+         I HAVE BORROWED THIS BOOK
+    ================================================== -->
+
+    <section id="borrow" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                I Have Borrowed This Book
+            </h2>
+
+            <form onsubmit="borrowBook(event)">
+
+                <div class="borrow-form">
+
+                    <div class="field">
+
+                        <label>
+                            Book Title
+                        </label>
+
+                        <input
+                                id="borrowTitle"
+                                type="text"
+                                required
+                                placeholder="Enter book title">
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            Author
+                        </label>
+
+                        <input
+                                id="borrowAuthor"
+                                type="text"
+                                required
+                                placeholder="Enter author name">
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            Borrowed Date
+                        </label>
+
+                        <input
+                                id="borrowDate"
+                                type="date"
+                                required
+                                onchange="calculateDueDate()">
+
+                    </div>
+
+                    <div class="field">
+
+                        <label>
+                            Borrowing Period
+                        </label>
+
+                        <select
+                                id="borrowPeriod"
+                                required
+                                onchange="calculateDueDate()">
+
+                            <option value="7">
+                                7 Days
+                            </option>
+
+                            <option value="14"
+                                    selected>
+                                14 Days
+                            </option>
+
+                            <option value="21">
+                                21 Days
+                            </option>
+
+                            <option value="30">
+                                30 Days
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="field full">
+
+                        <label>
+                            Automatically Calculated Due Date
+                        </label>
+
+                        <input
+                                id="borrowDue"
+                                type="date"
+                                readonly>
+
+                    </div>
+
+                    <div class="field full">
+
+                        <button
+                                class="btn"
+                                type="submit">
+
+                            📚 I Have Borrowed This Book
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            <!-- TIMER -->
+
+            <div id="borrowTimer"
+                 class="timer"
+                 style="display:none;">
+
+                <div class="timer-title">
+                    Time Remaining
+                </div>
+
+                <div id="timerBook"
+                     class="timer-book">
+                </div>
+
+                <div id="timerValue"
+                     class="timer-value">
+                    00d 00h 00m 00s
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         MY BOOKS
+    ================================================== -->
+
+    <section id="books" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Books I Have Borrowed
+            </h2>
+
+            <input
+                    id="bookSearch"
+                    type="search"
+                    placeholder="Search your books..."
+                    oninput="renderBooks()">
+
+            <br><br>
+
+            <div id="booksList"
+                 class="book-list">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         HISTORY
+    ================================================== -->
+
+    <section id="history" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Borrowing History
+            </h2>
+
+            <div id="historyList"
+                 class="book-list">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         NOTIFICATIONS
+    ================================================== -->
+
+    <section id="notifications" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Notifications
+            </h2>
+
+
+            <div class="notification">
+
+                <div class="notification-icon">
+
+                </div>
+
+                <div class="notification-content">
+
+                    <strong>
+                        SMS Notifications
+                    </strong>
+
+                    <span>
+                        Receive library reminders on your registered phone number.
+                    </span>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                            type="checkbox"
+                            id="smsToggle"
+                            onchange="saveNotificationSettings()">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="notification">
+
+                <div class="notification-icon">
+
+                </div>
+
+                <div class="notification-content">
+
+                    <strong>
+                        Due-Date Reminders
+                    </strong>
+
+                    <span>
+                        Receive reminders when a book is approaching its due date.
+                    </span>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                            type="checkbox"
+                            id="dueToggle"
+                            checked
+                            onchange="saveNotificationSettings()">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <div class="notification">
+
+                <div class="notification-icon">
+
+                </div>
+
+                <div class="notification-content">
+
+                    <strong>
+                        Return Confirmation
+                    </strong>
+
+                    <span>
+                        Receive confirmation after returning a book.
+                    </span>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                            type="checkbox"
+                            id="returnToggle"
+                            checked
+                            onchange="saveNotificationSettings()">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Phone Notification Service
+            </h2>
+
+            <p style="color:var(--text-muted)">
+                Phone notifications require a backend SMS service.
+                Never put your SMS provider API key inside this HTML file.
+            </p>
+
+            <button class="btn"
+                    onclick="sendTestSMS()">
+                Send Test Notification
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         PROFILE
+    ================================================== -->
+
+    <section id="profile" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Patron Profile
+            </h2>
+
+            <form onsubmit="saveProfile(event)">
+
+                <div class="form-grid">
+
+                    <div class="field full">
+
+                        <label>
+                            Library Name
+                        </label>
+
+                        <input
+                                id="profileLibrary"
+                                required
+                                placeholder="My Library">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                                id="profileName"
+                                required
+                                placeholder="Your name">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Age
+                        </label>
+
+                        <input
+                                id="profileAge"
+                                type="number"
+                                min="1"
+                                max="120">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Date of Birth
+                        </label>
+
+                        <input
+                                id="profileDob"
+                                type="date">
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                                id="profileEmail"
+                                type="email"
+                                placeholder="you@example.com">
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                                id="profilePhone"
+                                type="tel"
+                                placeholder="+91 98765 43210">
+
+                    </div>
+
+                </div>
+
+                <br>
+
+                <button class="btn"
+                        type="submit">
+                    Save Profile
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
+
+    <section id="settings" class="page">
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Settings
+            </h2>
+
+            <div class="notification">
+
+                <div class="notification-content">
+
+                    <strong>
+                        Compact Activity Logging
+                    </strong>
+
+                    <span>
+                        Reduce unnecessary activity messages.
+                    </span>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                            type="checkbox"
+                            id="compactLogging"
+                            onchange="saveSettings()">
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Account Data
+            </h2>
+
+            <p style="color:var(--text-muted)">
+                Delete all data belonging to the currently signed-in account.
+            </p>
+
+            <button class="btn btn-danger"
+                    onclick="deleteAccount()">
+                Delete My Account
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     AUTHENTICATION
+===================================================== -->
+
+<div id="authOverlay"
+     class="auth-overlay">
+
+    <div class="auth-box">
+
+        <div class="auth-logo">
+            BookBoomerang.com
+        </div>
+
+
+        <!-- AUTH TABS -->
+
+        <div class="auth-tabs">
+
+            <button id="loginTab"
+                    class="active"
+                    onclick="switchAuth('login')">
+                Login&laquo;
+            </button>
+
+            <button id="registerTab"
+                    onclick="switchAuth('register')">
+                Create Account
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginPanel"
+             class="auth-panel active">
+
+            <form onsubmit="login(event)">
+
+                <div class="field">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                            id="loginUsername"
+                            required
+                            autocomplete="username"
+                            placeholder="Enter username">
+
+                </div>
+
+                <br>
+
+                <div class="field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                            id="loginPassword"
+                            type="password"
+                            required
+                            autocomplete="current-password"
+                            placeholder="Enter password">
+
+                </div>
+
+                <div id="loginMessage"
+                     class="auth-message">
+                </div>
+
+                <br>
+
+                <button class="btn"
+                        type="submit"
+                        style="width:100%">
+                    Sign In
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- CREATE ACCOUNT -->
+
+        <div id="registerPanel"
+             class="auth-panel">
+
+            <form onsubmit="createAccount(event)">
+
+                <div class="field">
+
+                    <label>
+                        Choose Username
+                    </label>
+
+                    <input
+                            id="registerUsername"
+                            required
+                            minlength="3"
+                            maxlength="30"
+                            autocomplete="username"
+                            placeholder="Choose a username">
+
+                </div>
+
+                <br>
+
+                <div class="field">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                            id="registerPassword"
+                            type="password"
+                            required
+                            minlength="6"
+                            autocomplete="new-password"
+                            placeholder="At least 6 characters">
+
+                </div>
+
+                <br>
+
+                <div class="field">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input
+                            id="registerConfirm"
+                            type="password"
+                            required
+                            minlength="6"
+                            autocomplete="new-password"
+                            placeholder="Repeat your password">
+
+                </div>
+
+                <div id="registerMessage"
+                     class="auth-message">
+                </div>
+
+                <br>
+
+                <button class="btn"
+                        type="submit"
+                        style="width:100%">
+                    Create New Account
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="auth-footer">
+            Your library account is stored locally in this browser.
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"
+     class="toast">
+</div>
+
+
+<script>
+
+    /* =========================================================
+       ACCOUNT STORAGE
+    ========================================================= */
+
+    const ACCOUNT_PREFIX = "libportal_account_";
+    const SESSION_KEY = "libportal_active_user";
+
+
+    function normalizeUsername(username) {
+
+        return username
+            .trim()
+            .toLowerCase();
+
+    }
+
+
+    function accountKey(username) {
+
+        return ACCOUNT_PREFIX + normalizeUsername(username);
+
+    }
+
+
+    function getActiveUser() {
+
+        return localStorage.getItem(SESSION_KEY);
+
+    }
+
+
+    function getAccount(username) {
+
+        const raw = localStorage.getItem(
+            accountKey(username)
+        );
+
+        if (!raw) return null;
+
+        try {
+            return JSON.parse(raw);
+        } catch {
+            return null;
+        }
+    }
+
+
+    function saveAccount(account) {
+
+        localStorage.setItem(
+            accountKey(account.username),
+            JSON.stringify(account)
+        );
+
+    }
+
+
+    /* =========================================================
+       AUTH TABS
+    ========================================================= */
+
+    function switchAuth(mode) {
+
+        const loginPanel =
+            document.getElementById("loginPanel");
+
+        const registerPanel =
+            document.getElementById("registerPanel");
+
+        const loginTab =
+            document.getElementById("loginTab");
+
+        const registerTab =
+            document.getElementById("registerTab");
+
+        document.getElementById("loginMessage").textContent = "";
+        document.getElementById("registerMessage").textContent = "";
+
+        if (mode === "login") {
+
+            loginPanel.classList.add("active");
+            registerPanel.classList.remove("active");
+
+            loginTab.classList.add("active");
+            registerTab.classList.remove("active");
+
+        } else {
+
+            loginPanel.classList.remove("active");
+            registerPanel.classList.add("active");
+
+            loginTab.classList.remove("active");
+            registerTab.classList.add("active");
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CREATE ACCOUNT
+    ========================================================= */
+
+    function createAccount(event) {
+
+        event.preventDefault();
+
+        const username =
+            normalizeUsername(
+                document.getElementById("registerUsername").value
+            );
+
+        const password =
+            document.getElementById("registerPassword").value;
+
+        const confirm =
+            document.getElementById("registerConfirm").value;
+
+        const message =
+            document.getElementById("registerMessage");
+
+        message.textContent = "";
+
+
+        if (username.length < 3) {
+
+            message.textContent =
+                "Username must contain at least 3 characters.";
+
+            return;
+        }
+
+
+        if (!/^[a-z0-9._-]+$/i.test(username)) {
+
+            message.textContent =
+                "Username can only contain letters, numbers, dots, underscores and hyphens.";
+
+            return;
+        }
+
+
+        if (password.length < 6) {
+
+            message.textContent =
+                "Password must contain at least 6 characters.";
+
+            return;
+        }
+
+
+        if (password !== confirm) {
+
+            message.textContent =
+                "Passwords do not match.";
+
+            return;
+        }
+
+
+        if (getAccount(username)) {
+
+            message.textContent =
+                "That username already exists.";
+
+            return;
+        }
+
+
+        /*
+            A completely empty account is created.
+
+            No books.
+            No history.
+            No profile.
+            No default data.
+        */
+
+        const account = {
+
+            username:username,
+
+            /*
+                This demo stores the password locally.
+                Real applications should authenticate against
+                a secure server and never store plaintext passwords
+                in localStorage.
+            */
+            password:password,
+
+            profile:null,
+
+            books:[],
+
+            history:[],
+
+            notifications:{
+                sms:false,
+                due:true,
+                returned:true
+            },
+
+            settings:{
+                compactLogging:false
+            }
+
+        };
+
+
+        saveAccount(account);
+
+        localStorage.setItem(
+            SESSION_KEY,
+            username
+        );
+
+
+        document.getElementById("registerUsername").value = "";
+        document.getElementById("registerPassword").value = "";
+        document.getElementById("registerConfirm").value = "";
+
+
+        hideAuthentication();
+
+        initializeApplication();
+
+        toast(
+            "Account created successfully. Welcome to LibPortal!"
+        );
+
+    }
+
+
+    /* =========================================================
+       LOGIN
+    ========================================================= */
+
+    function login(event) {
+
+        event.preventDefault();
+
+        const username =
+            normalizeUsername(
+                document.getElementById("loginUsername").value
+            );
+
+        const password =
+            document.getElementById("loginPassword").value;
+
+        const message =
+            document.getElementById("loginMessage");
+
+        message.textContent = "";
+
+
+        const account =
+            getAccount(username);
+
+
+        if (!account) {
+
+            message.textContent =
+                "Account not found. Create a new account first.";
+
+            return;
+        }
+
+
+        if (account.password !== password) {
+
+            message.textContent =
+                "Incorrect password.";
+
+            return;
+        }
+
+
+        localStorage.setItem(
+            SESSION_KEY,
+            username
+        );
+
+
+        document.getElementById("loginUsername").value = "";
+        document.getElementById("loginPassword").value = "";
+
+
+        hideAuthentication();
+
+        initializeApplication();
+
+        toast("Signed in successfully.");
+
+    }
+
+
+    /* =========================================================
+       AUTH VISIBILITY
+    ========================================================= */
+
+    function hideAuthentication() {
+
+        document
+            .getElementById("authOverlay")
+            .classList.add("hidden");
+
+    }
+
+
+    function showAuthentication() {
+
+        document
+            .getElementById("authOverlay")
+            .classList.remove("hidden");
+
+    }
+
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    const pageInfo = {
+
+        borrow:{
+            title:"Borrow a Book",
+            subtitle:"Record a borrowed book and start the due-date timer"
+        },
+
+
+        dashboard:{
+            title:"Dashboard",
+            subtitle:"Your library overview"
+        },
+
+        books:{
+            title:"My Books",
+            subtitle:"Books you currently have borrowed"
+        },
+
+        history:{
+            title:"History",
+            subtitle:"Books you previously borrowed"
+        },
+
+        notifications:{
+            title:"Notifications",
+            subtitle:"Library reminders and phone notifications"
+        },
+
+        profile:{
+            title:"Profile",
+            subtitle:"Manage your patron information"
+        },
+
+        settings:{
+            title:"Settings",
+            subtitle:"Manage your account"
+        }
+
+    };
+
+
+    function showPage(page, button) {
+
+        if (!getActiveUser()) {
+
+            showAuthentication();
+
+            return;
+        }
+
+
+        document
+            .querySelectorAll(".page")
+            .forEach(element =>
+                element.classList.remove("active")
+            );
+
+
+        const target =
+            document.getElementById(page);
+
+        if (!target) return;
+
+        target.classList.add("active");
+
+
+        document
+            .querySelectorAll(".nav button")
+            .forEach(element =>
+                element.classList.remove("active")
+            );
+
+
+        if (button) {
+            button.classList.add("active");
+        }
+
+
+        document.getElementById("pageTitle").textContent =
+            pageInfo[page].title;
+
+        document.getElementById("pageSubtitle").textContent =
+            pageInfo[page].subtitle;
+
+
+        if (page === "dashboard")
+            renderDashboard();
+
+        if (page === "borrow") {
+            setBorrowDate();
+            loadBorrowTimer();
+        }
+
+        if (page === "books")
+            renderBooks();
+
+
+        if (page === "history")
+            renderHistory();
+
+        if (page === "profile")
+            loadProfile();
+
+        if (page === "notifications")
+            loadNotifications();
+
+        if (page === "settings")
+            loadSettings();
+
+    }
+
+
+    /* =========================================================
+       CURRENT ACCOUNT
+    ========================================================= */
+
+    function currentAccount() {
+
+        const username =
+            getActiveUser();
+
+        if (!username) return null;
+
+        return getAccount(username);
+
+    }
+
+
+    function updateCurrentAccount(account) {
+
+        if (!account) return;
+
+        saveAccount(account);
+
+    }
+
+
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    function loadProfile() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const profile =
+            account.profile || {};
+
+
+        document.getElementById("profileLibrary").value =
+            profile.library || "";
+
+        document.getElementById("profileName").value =
+            profile.name || "";
+
+        document.getElementById("profileAge").value =
+            profile.age || "";
+
+        document.getElementById("profileDob").value =
+            profile.dob || "";
+
+        document.getElementById("profileEmail").value =
+            profile.email || "";
+
+        document.getElementById("profilePhone").value =
+            profile.phone || "";
+
+    }
+
+
+    function saveProfile(event) {
+
+        event.preventDefault();
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        account.profile = {
+
+            library:
+                document.getElementById("profileLibrary").value.trim(),
+
+            name:
+                document.getElementById("profileName").value.trim(),
+
+            age:
+            document.getElementById("profileAge").value,
+
+            dob:
+            document.getElementById("profileDob").value,
+
+            email:
+                document.getElementById("profileEmail").value.trim(),
+
+            phone:
+                document.getElementById("profilePhone").value.trim()
+
+        };
+
+
+        updateCurrentAccount(account);
+
+        renderDashboard();
+
+        toast("Profile saved.");
+
+    }
+
+    /* =========================================================
+       BORROW BOOK + TIMER
+    ========================================================= */
+
+    let borrowTimerInterval = null;
+
+
+    /* Set today's date automatically */
+
+    function setBorrowDate() {
+
+        const input =
+            document.getElementById("borrowDate");
+
+        if (!input) return;
+
+
+        const today =
+            new Date();
+
+
+        const year =
+            today.getFullYear();
+
+        const month =
+            String(today.getMonth() + 1)
+                .padStart(2, "0");
+
+        const day =
+            String(today.getDate())
+                .padStart(2, "0");
+
+
+        input.value =
+            `${year}-${month}-${day}`;
+
+
+        calculateDueDate();
+    }
+
+    function calculateDueDate() {
+
+        const borrowedDate =
+            document.getElementById("borrowDate");
+
+        const period =
+            document.getElementById("borrowPeriod");
+
+        const dueDate =
+            document.getElementById("borrowDue");
+
+
+        if (!borrowedDate ||
+            !period ||
+            !dueDate) {
+
+            return;
+        }
+
+
+        if (!borrowedDate.value) {
+            return;
+        }
+
+
+        const date =
+            new Date(
+                borrowedDate.value + "T00:00:00"
+            );
+
+
+        const days =
+            parseInt(
+                period.value,
+                10
+            );
+
+
+        date.setDate(
+            date.getDate() + days
+        );
+
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(date.getMonth() + 1)
+                .padStart(2, "0");
+
+        const day =
+            String(date.getDate())
+                .padStart(2, "0");
+
+
+        dueDate.value =
+            `${year}-${month}-${day}`;
+
+    }
+
+
+
+    /* Borrow a book */
+
+    function borrowBook(event) {
+
+        event.preventDefault();
+
+        const account =
+            currentAccount();
+
+        if (!account) {
+
+            showAuthentication();
+
+            return;
+        }
+
+
+        const title =
+            document.getElementById("borrowTitle")
+                .value
+                .trim();
+
+        const author =
+            document.getElementById("borrowAuthor")
+                .value
+                .trim();
+
+        const borrowed =
+            document.getElementById("borrowDate")
+                .value;
+
+        const due =
+            document.getElementById("borrowDue")
+                .value;
+
+
+        if (!title || !author || !borrowed || !due) {
+
+            toast("Please fill in all book details.");
+
+            return;
+        }
+
+
+        /* Make sure due date isn't before borrowed date */
+
+        if (due < borrowed) {
+
+            toast("Due date cannot be before the borrowed date.");
+
+            return;
+        }
+
+
+        const book = {
+
+            id:
+                Date.now().toString(),
+
+            title:title,
+
+            author:author,
+
+            borrowed:borrowed,
+
+            due:due
+
+        };
+
+
+        if (!account.books) {
+            account.books = [];
+        }
+
+
+        account.books.push(book);
+
+
+        updateCurrentAccount(account);
+
+
+        /* Clear form */
+
+        document.getElementById("borrowTitle").value = "";
+        document.getElementById("borrowAuthor").value = "";
+
+        document.getElementById("borrowDue").value = "";
+
+
+        /* Start timer */
+
+        startBorrowTimer(book);
+
+
+        /* Update dashboard and books */
+
+        renderBooks();
+
+        renderDashboard();
+
+
+        toast(
+            `"${title}" has been added to your borrowed books.`
+        );
+
+    }
+
+
+    /* =========================================================
+       START COUNTDOWN TIMER
+    ========================================================= */
+
+    function startBorrowTimer(book) {
+
+        const timer =
+            document.getElementById("borrowTimer");
+
+        const timerBook =
+            document.getElementById("timerBook");
+
+        const timerValue =
+            document.getElementById("timerValue");
+
+
+        if (!timer || !timerBook || !timerValue) {
+            return;
+        }
+
+
+        timer.style.display = "block";
+
+
+        timerBook.textContent =
+            book.title;
+
+
+        /* Stop previous timer */
+
+        if (borrowTimerInterval) {
+
+            clearInterval(
+                borrowTimerInterval
+            );
+
+        }
+
+
+        function updateTimer() {
+
+            const now =
+                new Date();
+
+
+            const dueDate =
+                new Date(
+                    book.due + "T23:59:59"
+                );
+
+
+            const difference =
+                dueDate.getTime() -
+                now.getTime();
+
+
+            /* Book is overdue */
+
+            if (difference <= 0) {
+
+                timerValue.textContent =
+                    "OVERDUE";
+
+                timerValue.classList.add("overdue");
+
+                clearInterval(
+                    borrowTimerInterval
+                );
+
+                return;
+            }
+
+
+            timerValue.classList.remove("overdue");
+
+
+            const totalSeconds =
+                Math.floor(
+                    difference / 1000
+                );
+
+
+            const days =
+                Math.floor(
+                    totalSeconds / 86400
+                );
+
+
+            const hours =
+                Math.floor(
+                    (totalSeconds % 86400) / 3600
+                );
+
+
+            const minutes =
+                Math.floor(
+                    (totalSeconds % 3600) / 60
+                );
+
+
+            const seconds =
+                totalSeconds % 60;
+
+
+            timerValue.textContent =
+
+                `${days}d ` +
+
+                `${String(hours).padStart(2,"0")}h ` +
+
+                `${String(minutes).padStart(2,"0")}m ` +
+
+                `${String(seconds).padStart(2,"0")}s`;
+
+        }
+
+
+        updateTimer();
+
+
+        borrowTimerInterval =
+            setInterval(
+                updateTimer,
+                1000
+            );
+
+    }
+
+
+    /* =========================================================
+       LOAD ACTIVE BOOK TIMER
+    ========================================================= */
+
+    function loadBorrowTimer() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const books =
+            account.books || [];
+
+
+        if (!books.length) {
+
+            const timer =
+                document.getElementById("borrowTimer");
+
+            if (timer) {
+                timer.style.display = "none";
+            }
+
+            return;
+        }
+
+
+        /*
+           Show the most recently borrowed book.
+        */
+
+        const latestBook =
+            books[books.length - 1];
+
+
+        startBorrowTimer(latestBook);
+
+    }
+
+    /* =========================================================
+       BOOKS
+    ========================================================= */
+
+    function renderBooks() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const container =
+            document.getElementById("booksList");
+
+
+        const search =
+            document.getElementById("bookSearch")
+                ?.value
+                .trim()
+                .toLowerCase() || "";
+
+
+        const books =
+            account.books || [];
+
+
+        const filtered =
+            books.filter(book =>
+                book.title.toLowerCase().includes(search) ||
+                book.author.toLowerCase().includes(search)
+            );
+
+
+        if (!filtered.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                📚 You have no borrowed books.
+             </div>`;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            filtered.map(bookHTML).join("");
+
+    }
+
+
+    function bookHTML(book) {
+
+        const status =
+            getDueStatus(book.due);
+
+
+        return `
+        <div class="book">
+
+            <div class="book-info">
+
+                <h3>
+                    📖 ${escapeHTML(book.title)}
+                </h3>
+
+                <p>
+                    Author: ${escapeHTML(book.author)}
+                </p>
+
+                <p>
+                    Borrowed: ${escapeHTML(book.borrowed)}
+                </p>
+
+                <p>
+                    Due: ${escapeHTML(book.due)}
+                </p>
+
+                <span class="badge ${status.class}">
+                    ${status.text}
+                </span>
+
+            </div>
+
+            <button
+                class="btn"
+                onclick="returnBook('${escapeHTML(book.id)}')">
+                Return Book
+            </button>
+
+        </div>
+    `;
+
+    }
+
+
+    function getDueStatus(date) {
+
+        const today =
+            new Date();
+
+        today.setHours(0,0,0,0);
+
+
+        const due =
+            new Date(date + "T00:00:00");
+
+
+        const days =
+            Math.ceil(
+                (due - today) / 86400000
+            );
+
+
+        if (days < 0) {
+
+            return {
+                text:"Overdue",
+                class:"badge-red"
+            };
+
+        }
+
+
+        if (days <= 3) {
+
+            return {
+                text:`Due in ${days} day${days === 1 ? "" : "s"}`,
+                class:"badge-orange"
+            };
+
+        }
+
+
+        return {
+            text:`Due in ${days} days`,
+            class:"badge-green"
+        };
+
+    }
+
+
+    function returnBook(id) {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const index =
+            account.books.findIndex(
+                book => String(book.id) === String(id)
+            );
+
+
+        if (index === -1) return;
+
+
+        const book =
+            account.books[index];
+
+
+        if (!confirm(
+            `Return "${book.title}"?`
+        )) {
+            return;
+        }
+
+
+        account.history.unshift({
+
+            ...book,
+
+            returned:
+                new Date()
+                    .toISOString()
+                    .split("T")[0]
+
+        });
+
+
+        account.books.splice(index,1);
+
+
+        updateCurrentAccount(account);
+
+        renderBooks();
+
+        renderHistory();
+
+        renderDashboard();
+
+
+        toast(
+            `"${book.title}" returned successfully.`
+        );
+
+    }
+
+
+    /* =========================================================
+       HISTORY
+    ========================================================= */
+
+    function renderHistory() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const container =
+            document.getElementById("historyList");
+
+
+        const history =
+            account.history || [];
+
+
+        if (!history.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                🕘 You have no borrowing history yet.
+             </div>`;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            history.map(book => `
+
+            <div class="book">
+
+                <div class="book-info">
+
+                    <h3>
+                        📕 ${escapeHTML(book.title)}
+                    </h3>
+
+                    <p>
+                        Author: ${escapeHTML(book.author)}
+                    </p>
+
+                    <p>
+                        Borrowed: ${escapeHTML(book.borrowed)}
+                    </p>
+
+                    <p>
+                        Returned: ${escapeHTML(book.returned)}
+                    </p>
+
+                    <span class="badge badge-green">
+                        ✓ Returned
+                    </span>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+    }
+
+
+    /* =========================================================
+       DASHBOARD
+    ========================================================= */
+
+    function renderDashboard() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const profile =
+            account.profile || {};
+
+
+        const books =
+            account.books || [];
+
+
+        const history =
+            account.history || [];
+
+
+        document.getElementById("statBorrowed").textContent =
+            books.length;
+
+
+        document.getElementById("statHistory").textContent =
+            history.length;
+
+
+        const dueSoon =
+            books.filter(book => {
+
+                const today =
+                    new Date();
+
+                today.setHours(0,0,0,0);
+
+                const due =
+                    new Date(book.due + "T00:00:00");
+
+                const days =
+                    Math.ceil(
+                        (due - today) / 86400000
+                    );
+
+                return days >= 0 && days <= 3;
+
+            });
+
+
+        document.getElementById("statDue").textContent =
+            dueSoon.length;
+
+
+        document.getElementById("statNotifications").textContent =
+            dueSoon.length;
+
+
+        document.getElementById("dashboardUsername").textContent =
+            account.username;
+
+
+        document.getElementById("dashboardName").textContent =
+            profile.name || "Not configured";
+
+
+        document.getElementById("dashboardLibrary").textContent =
+            profile.library || "Not configured";
+
+
+        const container =
+            document.getElementById("dashboardBooks");
+
+
+        if (!books.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                📚 You currently have no borrowed books.
+             </div>`;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            books.slice(0,3)
+                .map(bookHTML)
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATIONS
+    ========================================================= */
+
+    function loadNotifications() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const settings =
+            account.notifications || {};
+
+
+        document.getElementById("smsToggle").checked =
+            settings.sms === true;
+
+
+        document.getElementById("dueToggle").checked =
+            settings.due !== false;
+
+
+        document.getElementById("returnToggle").checked =
+            settings.returned !== false;
+
+    }
+
+
+    function saveNotificationSettings() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        account.notifications = {
+
+            sms:
+            document.getElementById("smsToggle").checked,
+
+            due:
+            document.getElementById("dueToggle").checked,
+
+            returned:
+            document.getElementById("returnToggle").checked
+
+        };
+
+
+        updateCurrentAccount(account);
+
+        toast("Notification preferences saved.");
+
+    }
+
+
+    async function sendTestSMS() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const phone =
+            account.profile?.phone;
+
+
+        if (!phone) {
+
+            toast(
+                "Add your phone number in Profile first."
+            );
+
+            return;
+        }
+
+
+        /*
+            IMPORTANT:
+
+            Do NOT place your SMS provider API key here.
+
+            Your server should expose an endpoint such as:
+
+            POST /api/send-sms
+
+            The server stores the secret API key.
+        */
+
+
+        try {
+
+            /*
+            const response = await fetch("/api/send-sms", {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+                    phone:phone,
+                    message:"LibPortal test notification."
+                })
+
+            });
+
+            if (!response.ok) {
+                throw new Error("SMS request failed");
+            }
+            */
+
+
+            toast(
+                "SMS service is ready for backend connection."
+            );
+
+        } catch(error) {
+
+            console.error(error);
+
+            toast(
+                "Could not send SMS."
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SETTINGS
+    ========================================================= */
+
+    function loadSettings() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        const settings =
+            account.settings || {};
+
+
+        document.getElementById("compactLogging").checked =
+            settings.compact === true;
+
+    }
+
+
+    function saveSettings() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+
+        account.settings = {
+
+            compact:
+            document.getElementById("compactLogging").checked
+
+        };
+
+
+        updateCurrentAccount(account);
+
+        toast("Settings saved.");
+
+    }
+
+
+    /* =========================================================
+       SIGN OUT
+    ========================================================= */
+
+    function signOut() {
+
+        if (!getActiveUser()) return;
+
+
+        if (!confirm("Sign out of BookBoomerang.com?")) {
+            return;
+        }
+
+
+        localStorage.removeItem(
+            SESSION_KEY
+        );
+
+
+        location.reload();
+
+    }
+
+
+    /* =========================================================
+       DELETE ACCOUNT
+    ========================================================= */
+
+    function deleteAccount() {
+
+        const username =
+            getActiveUser();
+
+        if (!username) return;
+
+
+        const confirmed =
+            confirm(
+                "This permanently deletes your account, books, history and profile from this browser. Continue?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        localStorage.removeItem(
+            accountKey(username)
+        );
+
+
+        localStorage.removeItem(
+            SESSION_KEY
+        );
+
+
+        location.reload();
+
+    }
+
+
+    /* =========================================================
+       UTILITIES
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g,"&amp;")
+            .replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;")
+            .replace(/"/g,"&quot;")
+            .replace(/'/g,"&#039;");
+
+    }
+
+
+    function toast(message) {
+
+        const element =
+            document.getElementById("toast");
+
+
+        element.textContent =
+            message;
+
+
+        element.classList.add("show");
+
+
+        setTimeout(() => {
+
+            element.classList.remove("show");
+
+        },3000);
+
+    }
+
+
+    /* =========================================================
+       INITIALIZATION
+    ========================================================= */
+
+    function initializeApplication() {
+
+        const username =
+            getActiveUser();
+
+
+        if (!username) {
+
+            showAuthentication();
+
+            return;
+        }
+
+
+        const account =
+            currentAccount();
+
+
+        if (!account) {
+
+            localStorage.removeItem(
+                SESSION_KEY
+            );
+
+            showAuthentication();
+
+            return;
+        }
+
+
+        hideAuthentication();
+
+        renderDashboard();
+
+        renderBooks();
+
+        renderHistory();
+
+        loadProfile();
+
+        loadBorrowTimer();
+
+
+        loadNotifications();
+
+        loadSettings();
+
+    }
+
+    //POPUP JS
+    function navigateToPage(targetPage) {
+        const user = localStorage.getItem("activeSessionUser");
+
+        if (!user) {
+            openAuthModal("login");
+            return;
+        }
+
+        const savedProfile = localStorage.getItem(`profile_${user}`);
+
+        // Reset menu buttons
+        document.querySelectorAll(".menu-item").forEach(item => {
+            item.classList.remove("active");
+        });
+
+        // Hide existing pages
+        document.getElementById("pageDashboard")?.classList.add("hidden");
+        document.getElementById("pageSettings")?.classList.add("hidden");
+
+        // Dashboard
+        if (targetPage === "dashboard") {
+
+            if (!savedProfile) {
+                showProfilePopup();
+                navigateToPage("profile");
+                return;
+            }
+
+            document.getElementById("menuDash")?.classList.add("active");
+            document.getElementById("pageDashboard")?.classList.remove("hidden");
+
+            const profile = JSON.parse(savedProfile);
+
+            document.getElementById("main-title").innerText =
+                "Welcome back, " + profile.name;
+
+            renderDashboardMetrics(profile);
+
+            return;
+        }
+
+        // Profile
+        if (targetPage === "profile") {
+
+            document.getElementById("menuProfile")?.classList.add("active");
+
+            document.getElementById("main-title").innerText =
+                "My Profile";
+
+            document.getElementById("target-display").innerText =
+                "Manage your library member information.";
+
+            // Your existing settings/profile form is used here
+            document.getElementById("pageSettings")?.classList.remove("hidden");
+
+            if (savedProfile) {
+                loadProfileIntoFields(JSON.parse(savedProfile));
+            }
+
+            return;
+        }
+
+        // Settings
+        if (targetPage === "settings") {
+
+            document.getElementById("menuSettings")?.classList.add("active");
+
+            document.getElementById("main-title").innerText =
+                "Portal Settings";
+
+            document.getElementById("target-display").innerText =
+                "Manage your portal preferences.";
+
+            document.getElementById("pageSettings")?.classList.remove("hidden");
+
+            return;
+        }
+
+        // Future pages
+        if (targetPage === "books") {
+            document.getElementById("menuBooks")?.classList.add("active");
+
+            document.getElementById("main-title").innerText =
+                "My Books";
+
+            document.getElementById("target-display").innerText =
+                "Books currently borrowed from the library.";
+
+            return;
+        }
+
+        if (targetPage === "history") {
+            document.getElementById("menuHistory")?.classList.add("active");
+
+            document.getElementById("main-title").innerText =
+                "Borrowing History";
+
+            document.getElementById("target-display").innerText =
+                "Your previous library borrowing records.";
+
+            return;
+        }
+
+        if (targetPage === "notifications") {
+            document.getElementById("menuNotifications")?.classList.add("active");
+
+            document.getElementById("main-title").innerText =
+                "Notifications";
+
+            document.getElementById("target-display").innerText =
+                "Library notifications and alerts.";
+
+            return;
+        }
+    }
+
+    /* =========================================================
+       START
+    ========================================================= */
+
+    initializeApplication();
+
+</script>
+
+</body>
+</html>
