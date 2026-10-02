@@ -1223,7 +1223,7 @@ Popup
             </p>
 
             <button class="btn"
-                    onclick="sendTestSMS()">
+                    onclick="sendEmailBtn()">
                 Send Test Notification
             </button>
 
@@ -3329,16 +3329,16 @@ Popup
 </script>
 
 <script>
+    // Wait for the DOM to be fully loaded
     document.addEventListener('DOMContentLoaded', () => {
-        // Robustly locate the test button
-        const testButton = document.querySelector('button:contains("Send Test Notification")') ||
-            Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes('Send Test Notification'));
+        // FIX: Directly find the button using its specific ID
+        const testButton = document.getElementById('sendEmailBtn');
 
         if (testButton) {
             testButton.addEventListener('click', async (e) => {
                 e.preventDefault();
 
-                // Target the email input field dynamically
+                // Find the Email input field in your Patron Profile section
                 const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
                     return input.type === 'email' ||
                         input.placeholder?.toLowerCase().includes('email') ||
@@ -3347,31 +3347,32 @@ Popup
 
                 const userEmail = emailInput ? emailInput.value.trim() : '';
 
+                // Validation check
                 if (!userEmail) {
                     alert('Please enter an Email address in the Patron Profile form first!');
                     return;
                 }
 
-                // Toggle UI loading states
+                // Change button state visually to indicate progress
                 const originalText = testButton.textContent;
                 testButton.textContent = 'Sending...';
                 testButton.disabled = true;
 
                 try {
+                    // Send request to your Vercel Serverless Function (/api/notify)
                     const response = await fetch('/api/notify', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify({
-                            subscriberId: userEmail,
+                            subscriberId: userEmail, // Passing the email as the subscriber identifier
                             message: "Your BookBoomerang notification system is officially connected!"
                         }),
                     });
 
                     const result = await response.json();
 
-                    // Safely check if the custom success key or status returns true
                     if (response.ok && result.success) {
                         alert(`Success! Test email notification triggered for ${userEmail}.`);
                     } else {
@@ -3381,13 +3382,17 @@ Popup
                     console.error('Network Error:', error);
                     alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
                 } finally {
+                    // Reset button state
                     testButton.textContent = originalText;
                     testButton.disabled = false;
                 }
             });
+        } else {
+            console.warn("Could not find an element with id='sendEmailBtn' on this page.");
         }
     });
 </script>
+
 
 
 </body>
