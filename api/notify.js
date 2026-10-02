@@ -15,15 +15,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // FIX: Changed from 'https://novu.co' to the correct trigger endpoint
-    const response = await fetch("https://novu.co", {
+    // FIX 1: Pointing to the actual REST API event trigger endpoint
+    const response = await fetch("https://api.novu.co/v1/events/trigger", {
       method: "POST",
       headers: {
         "Authorization": `ApiKey ${process.env.NOVU_SECRET_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: process.env.NOVU_WORKFLOW_ID, // Ensure this environment variable matches your workflow identifier
+        // FIX 2: Rest API uses 'name' for the workflow identifier mapping
+        name: process.env.NOVU_WORKFLOW_ID, 
         to: { 
           subscriberId: subscriberId 
         },
@@ -33,7 +34,18 @@ export default async function handler(req, res) {
       }),
     });
 
-    const data = await response.json();
+    // Check if content-type is json before parsing to prevent unhandled HTML parsing errors
+    const contentType = response.headers.get("content-type");
+    let data = {};
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      const textError = await response.text();
+      return res.status(response.status).json({
+        success: false,
+        error: `Received non-JSON response from server: ${textError.substring(0, 100)}`
+      });
+    }
 
     if (!response.ok) {
       return res.status(response.status).json({ 
