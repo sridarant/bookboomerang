@@ -3361,20 +3361,18 @@ Popup
 
 </script>
 
-<!-- Load Novu Inbox using Browser ES Modules directly from CDN -->
+<!-- Load Novu Inbox using Browser ES Modules from a direct asset path -->
 <script type="module">
-    // Import Novu UI module from CDN
+    // FIX: Added the full, absolute file suffix path instead of just the root directory URL
     import { NovuUI } from "https://unpkg.com";
 
-    // Initialize the configuration instance
     const novu = new NovuUI({
         options: {
-            applicationIdentifier: "17vYr1sxH9r9", // Your unique application ID
-            subscriber: "6abfc6c743a1902ff22adf89"    // The active target reader ID
+            applicationIdentifier: "17vYr1sxH9r9",
+            subscriber: "6abfc6c743a1902ff22adf89"
         }
     });
 
-    // Mount the interactive Inbox UI component into your HTML placeholder
     novu.mountComponent({
         name: "Inbox",
         props: {},
