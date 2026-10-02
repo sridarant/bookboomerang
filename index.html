@@ -735,6 +735,9 @@
             Notifications
         </button>
 
+        <!-- Place this inside your body tags where you want the notification bell icon to appear -->
+        <div id="notification-inbox"></div>
+
         <button onclick="showPage('profile',this)">
             Profile
         </button>
@@ -3357,5 +3360,27 @@ Popup
     });
 
 </script>
+
+<!-- Load Novu Inbox using Browser ES Modules directly from CDN -->
+<script type="module">
+    // Import Novu UI module from CDN
+    import { NovuUI } from "https://jsdelivr.net";
+
+    // Initialize the configuration instance
+    const novu = new NovuUI({
+        options: {
+            applicationIdentifier: "17vYr1sxH9r9", // Your unique application ID
+            subscriber: "6abfc6c743a1902ff22adf89"    // The active target reader ID
+        }
+    });
+
+    // Mount the interactive Inbox UI component into your HTML placeholder
+    novu.mountComponent({
+        name: "Inbox",
+        props: {},
+        element: document.getElementById("notification-inbox")
+    });
+</script>
+
 </body>
 </html>
