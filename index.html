@@ -3361,22 +3361,31 @@ Popup
 
 </script>
 
-<!-- Load Novu Inbox using Browser ES Modules from a direct asset path -->
-<script type="module">
-    // FIX: Added the full, absolute file suffix path instead of just the root directory URL
-    import { NovuUI } from "https://unpkg.com";
+<!-- 1. Load the stylesheet styling library bundle -->
+<link rel="stylesheet" href="https://unpkg.com">
 
-    const novu = new NovuUI({
-        options: {
-            applicationIdentifier: "17vYr1sxH9r9",
-            subscriber: "6abfc6c743a1902ff22adf89"
-        }
-    });
+<!-- 2. Load the global standalone fallback library script -->
+<script src="https://unpkg.com"></script>
 
-    novu.mountComponent({
-        name: "Inbox",
-        props: {},
-        element: document.getElementById("notification-inbox")
+<!-- 3. Standard execution logic script blocks -->
+<script>
+    // Wait for the window DOM environment components to load completely
+    window.addEventListener('DOMContentLoaded', () => {
+
+        // When loaded via standard UMD script, the constructor lives on the global window context
+        const novu = new window.NovuUI({
+            options: {
+                applicationIdentifier: "17vYr1sxH9r9",
+                subscriber: "6abfc6c743a1902ff22adf89"
+            }
+        });
+
+        // Mount the interactive Inbox UI component into your HTML placeholder box
+        novu.mountComponent({
+            name: "Inbox",
+            props: {},
+            element: document.getElementById("notification-inbox")
+        });
     });
 </script>
 
