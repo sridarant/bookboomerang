@@ -3361,31 +3361,27 @@ Popup
 
 </script>
 
-<!-- 1. Load the stylesheet styling library bundle -->
-<link rel="stylesheet" href="https://unpkg.com">
+<!-- 1. Create the matching target node placeholder container -->
+<div id="notification-inbox"></div>
 
-<!-- 2. Load the global standalone fallback library script -->
-<script src="https://unpkg.com"></script>
+<!-- 2. Clean modern script module execution block -->
+<script type="module">
+    // FIX: Pointing to the absolute compiled UI asset file path avoids CORS redirects entirely
+    import { NovuUI } from "https://unpkg.com";
 
-<!-- 3. Standard execution logic script blocks -->
-<script>
-    // Wait for the window DOM environment components to load completely
-    window.addEventListener('DOMContentLoaded', () => {
+    // Initialise the Inbox service instance
+    const novu = new NovuUI({
+        options: {
+            applicationIdentifier: "17vYr1sxH9r9",
+            subscriber: "6abfc6c743a1902ff22adf89"
+        }
+    });
 
-        // When loaded via standard UMD script, the constructor lives on the global window context
-        const novu = new window.NovuUI({
-            options: {
-                applicationIdentifier: "17vYr1sxH9r9",
-                subscriber: "6abfc6c743a1902ff22adf89"
-            }
-        });
-
-        // Mount the interactive Inbox UI component into your HTML placeholder box
-        novu.mountComponent({
-            name: "Inbox",
-            props: {},
-            element: document.getElementById("notification-inbox")
-        });
+    // Inject the interactive user alert component cleanly
+    novu.mountComponent({
+        name: "Inbox",
+        props: {},
+        element: document.getElementById("notification-inbox")
     });
 </script>
 
