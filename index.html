@@ -1432,7 +1432,7 @@ Popup
             <button id="loginTab"
                     class="active"
                     onclick="switchAuth('login')">
-                Login&laquo;
+                Login&raquo;
             </button>
 
             <button id="registerTab"
@@ -2929,7 +2929,7 @@ Popup
 
     }
 
-
+/*
     async function sendTestSMS() {
 
         const account =
@@ -2962,7 +2962,8 @@ Popup
             POST /api/send-sms
 
             The server stores the secret API key.
-        */
+
+ */ /*
 
 
         try {
@@ -2978,7 +2979,7 @@ Popup
 
                 body:JSON.stringify({
                     phone:phone,
-                    message:"LibPortal test notification."
+                    message:"BB web Portal test notification."
                 })
 
             });
@@ -2986,7 +2987,8 @@ Popup
             if (!response.ok) {
                 throw new Error("SMS request failed");
             }
-            */
+            /*
+            /*
 
 
             toast(
@@ -3003,7 +3005,7 @@ Popup
 
         }
 
-    }
+    }*/
 
 
     /* =========================================================
@@ -3328,69 +3330,66 @@ Popup
 </script>
 
 <script>
-  // Wait for the DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    // Find the 'Send Test Notification' button
-    const testButton = document.querySelector('button:contains("Send Test Notification")') || 
-                       Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes('Send Test Notification'));
+    document.addEventListener('DOMContentLoaded', () => {
+        // Robustly locate the test button
+        const testButton = document.querySelector('button:contains("Send Test Notification")') ||
+            Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes('Send Test Notification'));
 
-    if (testButton) {
-      testButton.addEventListener('click', async (e) => {
-        e.preventDefault();
+        if (testButton) {
+            testButton.addEventListener('click', async (e) => {
+                e.preventDefault();
 
-        // Find the Email input field in your Patron Profile section
-        const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
-          // Looks for an input following or near an 'Email' label or placeholder
-          return input.type === 'email' || 
-                 input.placeholder?.toLowerCase().includes('email') ||
-                 input.previousElementSibling?.textContent?.toLowerCase().includes('email');
-        });
+                // Target the email input field dynamically
+                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
+                    return input.type === 'email' ||
+                        input.placeholder?.toLowerCase().includes('email') ||
+                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');
+                });
 
-        const userEmail = emailInput ? emailInput.value.trim() : '';
+                const userEmail = emailInput ? emailInput.value.trim() : '';
 
-        // Validation check
-        if (!userEmail) {
-          alert('Please enter an Email address in the Patron Profile form first!');
-          return;
+                if (!userEmail) {
+                    alert('Please enter an Email address in the Patron Profile form first!');
+                    return;
+                }
+
+                // Toggle UI loading states
+                const originalText = testButton.textContent;
+                testButton.textContent = 'Sending...';
+                testButton.disabled = true;
+
+                try {
+                    const response = await fetch('/api/notify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            subscriberId: userEmail,
+                            message: "Your BookBoomerang notification system is officially connected!"
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    // Safely check if the custom success key or status returns true
+                    if (response.ok && result.success) {
+                        alert(`Success! Test email notification triggered for ${userEmail}.`);
+                    } else {
+                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);
+                    }
+                } catch (error) {
+                    console.error('Network Error:', error);
+                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
+                } finally {
+                    testButton.textContent = originalText;
+                    testButton.disabled = false;
+                }
+            });
         }
-
-        // Change button state visually to indicate progress
-        const originalText = testButton.textContent;
-        testButton.textContent = 'Sending...';
-        testButton.disabled = true;
-
-        try {
-          // Send request to your Vercel Serverless Function (/api/notify)
-          const response = await fetch('/api/notify', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              subscriberId: userEmail, // Passing the email as the subscriber identifier
-              message: "Your BookBoomerang notification system is officially connected!"
-            }),
-          });
-
-          const result = await response.json();
-
-          if (response.ok && result.success) {
-            alert(`Success! Test email notification triggered for ${userEmail}.`);
-          } else {
-            alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);
-          }
-        } catch (error) {
-          console.error('Network Error:', error);
-          alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
-        } finally {
-          // Reset button state
-          testButton.textContent = originalText;
-          testButton.disabled = false;
-        }
-      });
-    }
-  });
+    });
 </script>
+
 
 </body>
 </html>
