@@ -1575,7 +1575,7 @@ Popup
 
 
         <div class="auth-footer">
-            Your library account is stored locally in this browser.
+            Your account is saved within this browser and cannot be seen by anyone other than you.<br>Clearing the cache can reset the portal to Initialisation mode, ALL DATA WILL BE DELETED!
         </div>
 
     </div>
@@ -1594,8 +1594,8 @@ Popup
        ACCOUNT STORAGE
     ========================================================= */
 
-    const ACCOUNT_PREFIX = "libportal_account_";
-    const SESSION_KEY = "libportal_active_user";
+    const ACCOUNT_PREFIX = "BBWP(SS.package)_Account_";
+    const SESSION_KEY = "BBWP(SS.package)_active_user";
 
 
     function normalizeUsername(username) {
@@ -1817,7 +1817,7 @@ Popup
         initializeApplication();
 
         toast(
-            "Account created successfully. Welcome to LibPortal!"
+            "Account created successfully. Welcome to BookBoomerang.com Web Portal!"
         );
 
     }
@@ -2545,7 +2545,7 @@ Popup
 
             container.innerHTML =
                 `<div class="empty">
-                📚 You have no borrowed books.
+                You have no borrowed books.
              </div>`;
 
             return;
@@ -2570,7 +2570,7 @@ Popup
             <div class="book-info">
 
                 <h3>
-                    📖 ${escapeHTML(book.title)}
+                    ${escapeHTML(book.title)}
                 </h3>
 
                 <p>
@@ -2732,7 +2732,7 @@ Popup
 
             container.innerHTML =
                 `<div class="empty">
-                🕘 You have no borrowing history yet.
+                You have no borrowing history yet.
              </div>`;
 
             return;
@@ -2747,7 +2747,7 @@ Popup
                 <div class="book-info">
 
                     <h3>
-                        📕 ${escapeHTML(book.title)}
+                        ${escapeHTML(book.title)}
                     </h3>
 
                     <p>
@@ -2856,7 +2856,7 @@ Popup
 
             container.innerHTML =
                 `<div class="empty">
-                📚 You currently have no borrowed books.
+                You currently have no borrowed books.
              </div>`;
 
             return;
