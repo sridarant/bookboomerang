@@ -2942,14 +2942,16 @@ Popup
         }
 
         try {
-            // Send request to your Vercel Serverless Function (/api/notify)
-            const response = await fetch("/api/notify", {
+            // FIX: Change this to your full, absolute Vercel deployment URL
+            const VERCEL_URL = "https://bookboomerang.vercel.app";
+
+            const response = await fetch(`${VERCEL_URL}/api/notify`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    subscriberId: phone, // Passing the phone number as the subscriber identifier
+                    subscriberId: phone,
                     message: "BB web Portal test notification."
                 })
             });
@@ -2966,6 +2968,7 @@ Popup
             toast("Failed to connect to /api/notify. Ensure your server is running.");
         }
     }
+
 
 
     /* =========================================================
@@ -3287,74 +3290,69 @@ Popup
 
     initializeApplication();
 
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        // FIX: Directly find the button using its specific ID
+        const testButton = document.getElementById('sendEmailBtn');
+
+        if (testButton) {
+            testButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                // Find the Email input field in your Patron Profile section
+                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
+                    return input.type === 'email' ||
+                        input.placeholder?.toLowerCase().includes('email') ||
+                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');
+                });
+
+                const userEmail = emailInput ? emailInput.value.trim() : '';
+
+                // Validation check
+                if (!userEmail) {
+                    alert('Please enter an Email address in the Patron Profile form first!');
+                    return;
+                }
+
+                // Change button state visually to indicate progress
+                const originalText = testButton.textContent;
+                testButton.textContent = 'Sending...';
+                testButton.disabled = true;
+
+                try {
+                    // Send request to your Vercel Serverless Function (/api/notify)
+                    const response = await fetch('/api/notify', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            subscriberId: userEmail, // Passing the email as the subscriber identifier
+                            message: "Your BookBoomerang notification system is officially connected!"
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert(`Success! Test email notification triggered for ${userEmail}.`);
+                    } else {
+                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);
+                    }
+                } catch (error) {
+                    console.error('Network Error:', error);
+                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
+                } finally {
+                    // Reset button state
+                    testButton.textContent = originalText;
+                    testButton.disabled = false;
+                }
+            });
+        } else {
+            console.warn("Could not find an element with id='sendEmailBtn' on this page.");
+        }
+    });
+
 </script>
-
-<!--<script>-->
-<!--    // Wait for the DOM to be fully loaded-->
-<!--    document.addEventListener('DOMContentLoaded', () => {-->
-<!--        // FIX: Directly find the button using its specific ID-->
-<!--        const testButton = document.getElementById('sendEmailBtn');-->
-
-<!--        if (testButton) {-->
-<!--            testButton.addEventListener('click', async (e) => {-->
-<!--                e.preventDefault();-->
-
-<!--                // Find the Email input field in your Patron Profile section-->
-<!--                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {-->
-<!--                    return input.type === 'email' ||-->
-<!--                        input.placeholder?.toLowerCase().includes('email') ||-->
-<!--                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');-->
-<!--                });-->
-
-<!--                const userEmail = emailInput ? emailInput.value.trim() : '';-->
-
-<!--                // Validation check-->
-<!--                if (!userEmail) {-->
-<!--                    alert('Please enter an Email address in the Patron Profile form first!');-->
-<!--                    return;-->
-<!--                }-->
-
-<!--                // Change button state visually to indicate progress-->
-<!--                const originalText = testButton.textContent;-->
-<!--                testButton.textContent = 'Sending...';-->
-<!--                testButton.disabled = true;-->
-
-<!--                try {-->
-<!--                    // Send request to your Vercel Serverless Function (/api/notify)-->
-<!--                    const response = await fetch('/api/notify', {-->
-<!--                        method: 'POST',-->
-<!--                        headers: {-->
-<!--                            'Content-Type': 'application/json',-->
-<!--                        },-->
-<!--                        body: JSON.stringify({-->
-<!--                            subscriberId: userEmail, // Passing the email as the subscriber identifier-->
-<!--                            message: "Your BookBoomerang notification system is officially connected!"-->
-<!--                        }),-->
-<!--                    });-->
-
-<!--                    const result = await response.json();-->
-
-<!--                    if (response.ok && result.success) {-->
-<!--                        alert(`Success! Test email notification triggered for ${userEmail}.`);-->
-<!--                    } else {-->
-<!--                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);-->
-<!--                    }-->
-<!--                } catch (error) {-->
-<!--                    console.error('Network Error:', error);-->
-<!--                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');-->
-<!--                } finally {-->
-<!--                    // Reset button state-->
-<!--                    testButton.textContent = originalText;-->
-<!--                    testButton.disabled = false;-->
-<!--                }-->
-<!--            });-->
-<!--        } else {-->
-<!--            console.warn("Could not find an element with id='sendEmailBtn' on this page.");-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-
-
-
 </body>
 </html>
