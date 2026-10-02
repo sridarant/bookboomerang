@@ -1223,7 +1223,7 @@ Popup
             </p>
 
             <button class="btn"
-                    onclick="sendEmailBtn()">
+                    onclick="sendTestSMS()">
                 Send Test Notification
             </button>
 
@@ -2931,79 +2931,40 @@ Popup
 
 
     async function sendTestSMS() {
-
-        const account =
-            currentAccount();
-
+        const account = currentAccount();
         if (!account) return;
 
-
-        const phone =
-            account.profile?.phone;
-
+        const phone = account.profile?.phone;
 
         if (!phone) {
-
-            toast(
-                "Add your phone number in Profile first."
-            );
-
+            toast("Add your phone number in Profile first.");
             return;
         }
 
-
-        /*
-            IMPORTANT:
-
-            Do NOT place your SMS provider API key here.
-
-            Your server should expose an endpoint such as:
-
-            POST /api/send-sms
-
-            The server stores the secret API key.
-
- */
-
-
         try {
-
-            /*
-            const response = await fetch("/api/send-sms", {
-
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
+            // Send request to your Vercel Serverless Function (/api/notify)
+            const response = await fetch("/api/notify", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
                 },
-
-                body:JSON.stringify({
-                    phone:phone,
-                    message:"BB web Portal test notification."
+                body: JSON.stringify({
+                    subscriberId: phone, // Passing the phone number as the subscriber identifier
+                    message: "BB web Portal test notification."
                 })
-
             });
 
-            if (!response.ok) {
-                throw new Error("SMS request failed");
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                toast(`Success! Test SMS notification triggered for ${phone}.`);
+            } else {
+                toast(`Failed to send SMS: ${result.error || 'Unknown backend error'}`);
             }
-            */
-
-
-            toast(
-                "SMS service is ready for backend connection."
-            );
-
-        } catch(error) {
-
-            console.error(error);
-
-            toast(
-                "Could not send SMS."
-            );
-
+        } catch (error) {
+            console.error("Network Error:", error);
+            toast("Failed to connect to /api/notify. Ensure your server is running.");
         }
-
     }
 
 
@@ -3328,70 +3289,70 @@ Popup
 
 </script>
 
-<script>
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-        // FIX: Directly find the button using its specific ID
-        const testButton = document.getElementById('sendEmailBtn');
+<!--<script>-->
+<!--    // Wait for the DOM to be fully loaded-->
+<!--    document.addEventListener('DOMContentLoaded', () => {-->
+<!--        // FIX: Directly find the button using its specific ID-->
+<!--        const testButton = document.getElementById('sendEmailBtn');-->
 
-        if (testButton) {
-            testButton.addEventListener('click', async (e) => {
-                e.preventDefault();
+<!--        if (testButton) {-->
+<!--            testButton.addEventListener('click', async (e) => {-->
+<!--                e.preventDefault();-->
 
-                // Find the Email input field in your Patron Profile section
-                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
-                    return input.type === 'email' ||
-                        input.placeholder?.toLowerCase().includes('email') ||
-                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');
-                });
+<!--                // Find the Email input field in your Patron Profile section-->
+<!--                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {-->
+<!--                    return input.type === 'email' ||-->
+<!--                        input.placeholder?.toLowerCase().includes('email') ||-->
+<!--                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');-->
+<!--                });-->
 
-                const userEmail = emailInput ? emailInput.value.trim() : '';
+<!--                const userEmail = emailInput ? emailInput.value.trim() : '';-->
 
-                // Validation check
-                if (!userEmail) {
-                    alert('Please enter an Email address in the Patron Profile form first!');
-                    return;
-                }
+<!--                // Validation check-->
+<!--                if (!userEmail) {-->
+<!--                    alert('Please enter an Email address in the Patron Profile form first!');-->
+<!--                    return;-->
+<!--                }-->
 
-                // Change button state visually to indicate progress
-                const originalText = testButton.textContent;
-                testButton.textContent = 'Sending...';
-                testButton.disabled = true;
+<!--                // Change button state visually to indicate progress-->
+<!--                const originalText = testButton.textContent;-->
+<!--                testButton.textContent = 'Sending...';-->
+<!--                testButton.disabled = true;-->
 
-                try {
-                    // Send request to your Vercel Serverless Function (/api/notify)
-                    const response = await fetch('/api/notify', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            subscriberId: userEmail, // Passing the email as the subscriber identifier
-                            message: "Your BookBoomerang notification system is officially connected!"
-                        }),
-                    });
+<!--                try {-->
+<!--                    // Send request to your Vercel Serverless Function (/api/notify)-->
+<!--                    const response = await fetch('/api/notify', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            'Content-Type': 'application/json',-->
+<!--                        },-->
+<!--                        body: JSON.stringify({-->
+<!--                            subscriberId: userEmail, // Passing the email as the subscriber identifier-->
+<!--                            message: "Your BookBoomerang notification system is officially connected!"-->
+<!--                        }),-->
+<!--                    });-->
 
-                    const result = await response.json();
+<!--                    const result = await response.json();-->
 
-                    if (response.ok && result.success) {
-                        alert(`Success! Test email notification triggered for ${userEmail}.`);
-                    } else {
-                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);
-                    }
-                } catch (error) {
-                    console.error('Network Error:', error);
-                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
-                } finally {
-                    // Reset button state
-                    testButton.textContent = originalText;
-                    testButton.disabled = false;
-                }
-            });
-        } else {
-            console.warn("Could not find an element with id='sendEmailBtn' on this page.");
-        }
-    });
-</script>
+<!--                    if (response.ok && result.success) {-->
+<!--                        alert(`Success! Test email notification triggered for ${userEmail}.`);-->
+<!--                    } else {-->
+<!--                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);-->
+<!--                    }-->
+<!--                } catch (error) {-->
+<!--                    console.error('Network Error:', error);-->
+<!--                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');-->
+<!--                } finally {-->
+<!--                    // Reset button state-->
+<!--                    testButton.textContent = originalText;-->
+<!--                    testButton.disabled = false;-->
+<!--                }-->
+<!--            });-->
+<!--        } else {-->
+<!--            console.warn("Could not find an element with id='sendEmailBtn' on this page.");-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
 
 
 
