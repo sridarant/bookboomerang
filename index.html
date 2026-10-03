@@ -24,7 +24,8 @@
             box-sizing:border-box;
         }
 
-        html,body {
+        html,
+        body {
             margin:0;
             min-height:100%;
             background:var(--bg-darker);
@@ -32,7 +33,9 @@
             font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
         }
 
-        button,input,select {
+        button,
+        input,
+        select {
             font:inherit;
         }
 
@@ -56,8 +59,12 @@
 
         .logo {
             padding:23px;
-            color:var(--green);
-            font-size:1.35rem;
+            background-image:linear-gradient(90deg,rgba(3, 150, 32, 1) 25%, rgba(2, 201, 162, 1) 50%, rgba(163, 247, 255, 1) 75%, rgba(57, 77, 204, 1) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            font-size:20px;
             font-weight:800;
             border-bottom:1px solid var(--border);
         }
@@ -199,6 +206,10 @@
             gap:15px;
         }
 
+        .book-info {
+            min-width:0;
+        }
+
         .book-info h3 {
             margin:0 0 6px;
         }
@@ -264,7 +275,8 @@
 
         /* ================= FORMS ================= */
 
-        .form-grid {
+        .form-grid,
+        .borrow-form {
             display:grid;
             grid-template-columns:1fr 1fr;
             gap:18px;
@@ -276,7 +288,8 @@
             gap:7px;
         }
 
-        .field.full {
+        .field.full,
+        .borrow-form .full {
             grid-column:1 / -1;
         }
 
@@ -286,7 +299,8 @@
             font-weight:600;
         }
 
-        input,select {
+        input,
+        select {
             width:100%;
             padding:12px;
             border-radius:6px;
@@ -323,6 +337,7 @@
             display:flex;
             align-items:center;
             justify-content:center;
+            flex-shrink:0;
         }
 
         .notification-content {
@@ -342,6 +357,7 @@
             position:relative;
             width:50px;
             height:26px;
+            flex-shrink:0;
         }
 
         .switch input {
@@ -376,6 +392,248 @@
 
         .switch input:checked + .slider:before {
             transform:translateX(24px);
+        }
+
+        /* ================= INBOX ================= */
+
+        .inbox-list {
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .inbox-message {
+            display:flex;
+            gap:14px;
+            padding:15px;
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-left:4px solid var(--blue);
+            border-radius:8px;
+        }
+
+        .inbox-message.unread {
+            border-left-color:var(--green);
+        }
+
+        .inbox-icon {
+            width:40px;
+            height:40px;
+            flex-shrink:0;
+            border-radius:50%;
+            background:rgba(69,134,198,.15);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .inbox-content {
+            flex:1;
+        }
+
+        .inbox-content strong {
+            display:block;
+            margin-bottom:5px;
+        }
+
+        .inbox-content span {
+            color:var(--text-muted);
+            font-size:.85rem;
+            line-height:1.5;
+        }
+
+        .inbox-time {
+            color:#888;
+            font-size:.72rem;
+            margin-top:6px;
+        }
+
+        /* ================= DUE REMINDERS ================= */
+
+        .due-reminder-list {
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .due-reminder {
+            display:flex;
+            gap:14px;
+            padding:15px;
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-left:4px solid var(--orange);
+            border-radius:8px;
+        }
+
+        .due-reminder.overdue {
+            border-left-color:var(--red);
+        }
+
+        .due-reminder-icon {
+            width:40px;
+            height:40px;
+            flex-shrink:0;
+            border-radius:50%;
+            background:rgba(243,156,18,.15);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .due-reminder.overdue .due-reminder-icon {
+            background:rgba(231,76,60,.15);
+        }
+
+        .due-reminder-content {
+            flex:1;
+        }
+
+        .due-reminder-content strong {
+            display:block;
+            margin-bottom:5px;
+        }
+
+        .due-reminder-content span {
+            color:var(--text-muted);
+            font-size:.85rem;
+            line-height:1.5;
+        }
+
+        .due-reminder-time {
+            color:#888;
+            font-size:.72rem;
+            margin-top:6px;
+        }
+
+        /* ================= SIDEBAR DUE ================= */
+
+        .due-soon-sidebar {
+            margin:10px;
+            padding:14px;
+            background:#1f1e1b;
+            border:1px solid var(--border);
+            border-radius:9px;
+            box-shadow:0 5px 15px rgba(0,0,0,.25);
+        }
+
+        .due-soon-header {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            color:#fff;
+            font-size:.9rem;
+            font-weight:800;
+            margin-bottom:12px;
+        }
+
+        .due-soon-count {
+            min-width:22px;
+            height:22px;
+            padding:0 6px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border-radius:50%;
+            background:var(--orange);
+            color:#fff;
+            font-size:.7rem;
+            font-weight:800;
+        }
+
+        .due-soon-list {
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            max-height:260px;
+            overflow-y:auto;
+        }
+
+        .due-soon-empty {
+            color:var(--text-muted);
+            font-size:.75rem;
+            line-height:1.4;
+            text-align:center;
+            padding:10px 4px;
+        }
+
+        .due-soon-item {
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-left:3px solid var(--orange);
+            border-radius:6px;
+            padding:9px;
+            cursor:pointer;
+            transition:.2s;
+        }
+
+        .due-soon-item:hover {
+            background:#302e2a;
+        }
+
+        .due-soon-item.overdue {
+            border-left-color:var(--red);
+        }
+
+        .due-soon-book {
+            color:#fff;
+            font-size:.78rem;
+            font-weight:700;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            margin-bottom:4px;
+        }
+
+        .due-soon-days {
+            color:#ffb43e;
+            font-size:.7rem;
+            font-weight:700;
+        }
+
+        .due-soon-item.overdue .due-soon-days {
+            color:#ff7467;
+        }
+
+        .due-soon-date {
+            color:var(--text-muted);
+            font-size:.65rem;
+            margin-top:3px;
+        }
+
+        /* ================= TIMER ================= */
+
+        .timer {
+            margin-top:20px;
+            padding:20px;
+            background:var(--bg-dark);
+            border:1px solid var(--border);
+            border-radius:9px;
+            text-align:center;
+        }
+
+        .timer-title {
+            color:var(--text-muted);
+            font-size:.85rem;
+            text-transform:uppercase;
+            margin-bottom:8px;
+        }
+
+        .timer-book {
+            font-size:1.2rem;
+            font-weight:700;
+            margin-bottom:12px;
+        }
+
+        .timer-value {
+            color:var(--green);
+            font-size:2rem;
+            font-weight:800;
+            letter-spacing:1px;
+        }
+
+        .timer-value.overdue {
+            color:var(--red);
         }
 
         /* ================= AUTH ================= */
@@ -459,6 +717,67 @@
             margin-top:20px;
         }
 
+        /* ================= PROFILE POPUP ================= */
+
+        .profile-popup {
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.75);
+            backdrop-filter:blur(5px);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            z-index:15000;
+            padding:20px;
+        }
+
+        .profile-popup.hidden {
+            display:none !important;
+        }
+
+        .profile-popup-card {
+            width:100%;
+            max-width:430px;
+            background:var(--bg-card);
+            border:1px solid var(--border);
+            border-radius:12px;
+            padding:30px;
+            text-align:center;
+            box-shadow:0 15px 40px rgba(0,0,0,.6);
+        }
+
+        .popup-icon {
+            width:65px;
+            height:65px;
+            margin:0 auto 18px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:rgba(129,182,76,.15);
+            border:1px solid rgba(129,182,76,.3);
+            border-radius:50%;
+            font-size:30px;
+        }
+
+        .profile-popup-card h2 {
+            margin:0 0 12px;
+        }
+
+        .profile-popup-card p {
+            color:var(--text-muted);
+            line-height:1.5;
+        }
+
+        .popup-actions {
+            display:flex;
+            gap:12px;
+            margin-top:25px;
+        }
+
+        .popup-actions .btn {
+            flex:1;
+        }
+
         /* ================= TOAST ================= */
 
         .toast {
@@ -516,6 +835,10 @@
             .dashboard-grid {
                 grid-template-columns:1fr;
             }
+
+            .due-soon-sidebar {
+                width:calc(100% - 20px);
+            }
         }
 
         @media(max-width:650px) {
@@ -524,11 +847,13 @@
                 grid-template-columns:1fr 1fr;
             }
 
-            .form-grid {
+            .form-grid,
+            .borrow-form {
                 grid-template-columns:1fr;
             }
 
-            .field.full {
+            .field.full,
+            .borrow-form .full {
                 grid-column:auto;
             }
 
@@ -540,6 +865,10 @@
             .book .btn {
                 width:100%;
             }
+
+            .timer-value {
+                font-size:1.5rem;
+            }
         }
 
         @media(max-width:450px) {
@@ -548,163 +877,12 @@
                 grid-template-columns:1fr;
             }
         }
-        /*   POPUP         */
-        .profile-popup {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            z-index: 10000;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .profile-popup.hidden {
-            display: none !important;
-        }
-
-        .profile-popup-card {
-            width: 100%;
-            max-width: 430px;
-
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-
-            padding: 30px;
-            text-align: center;
-
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-
-            animation: popupIn 0.2s ease-out;
-        }
-
-        .popup-icon {
-            width: 65px;
-            height: 65px;
-
-            margin: 0 auto 18px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background: rgba(129, 182, 76, 0.15);
-            border: 1px solid rgba(129, 182, 76, 0.3);
-
-            border-radius: 50%;
-
-            font-size: 30px;
-        }
-
-        .profile-popup-card h2 {
-            margin: 0 0 12px;
-            font-size: 1.5rem;
-        }
-
-        .profile-popup-card p {
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin: 8px 0;
-        }
-
-        .profile-popup-card .popup-muted {
-            font-size: 0.9rem;
-        }
-
-        .popup-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .popup-actions .btn {
-            flex: 1;
-        }
-
-        @keyframes popupIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px) scale(0.97);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        /* ================= BORROW BOOK ================= */
-
-        .borrow-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        .borrow-form .full {
-            grid-column: 1 / -1;
-        }
-
-        .timer {
-            margin-top: 20px;
-            padding: 20px;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            text-align: center;
-        }
-
-        .timer-title {
-            color: var(--text-muted);
-            font-size: .85rem;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .timer-book {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .timer-value {
-            color: var(--green);
-            font-size: 2rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
-
-        .timer-value.overdue {
-            color: var(--red);
-        }
-
-        @media(max-width:650px) {
-            .borrow-form {
-                grid-template-columns: 1fr;
-            }
-
-            .borrow-form .full {
-                grid-column: auto;
-            }
-
-            .timer-value {
-                font-size: 1.5rem;
-            }
-        }
     </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     SIDEBAR
-===================================================== -->
+<!-- ================= SIDEBAR ================= -->
 
 <aside class="sidebar">
 
@@ -735,8 +913,28 @@
             Notifications
         </button>
 
-        <!-- Place this inside your body tags where you want the notification bell icon to appear -->
-        <div id="notification-inbox"></div>
+        <!-- SEPARATE DUE REMINDER AREA -->
+
+        <div class="due-soon-sidebar">
+
+            <div class="due-soon-header">
+                <span>Due Soon</span>
+                <span id="sidebarDueCount"
+                      class="due-soon-count">
+                    0
+                </span>
+            </div>
+
+            <div id="sidebarDueList"
+                 class="due-soon-list">
+
+                <div class="due-soon-empty">
+                    No books due soon.
+                </div>
+
+            </div>
+
+        </div>
 
         <button onclick="showPage('profile',this)">
             Profile
@@ -755,26 +953,34 @@
 
 </aside>
 
-<!--============================
-Popup
-=============================-->
-<div id="profilePopup" class="profile-popup hidden">
-    <div class="profile-popup-card">
-        <div class="popup-icon">Profile is Incomplete</div>
+<!-- ================= PROFILE POPUP ================= -->
 
-        <h2>Complete Your Profile</h2>
+<div id="profilePopup"
+     class="profile-popup hidden">
+
+    <div class="profile-popup-card">
+
+        <div class="popup-icon">
+            👤
+        </div>
+
+        <h2>
+            Complete Your Profile
+        </h2>
 
         <p>
-            Your account has been created successfully, but your library
-            profile is incomplete.
+            Your account has been created successfully,
+            but your library profile is incomplete.
         </p>
 
-        <p class="popup-muted">
-            Complete your profile to start using all library features.
+        <p>
+            Complete your profile to use all library features.
         </p>
 
         <div class="popup-actions">
-            <button class="btn" onclick="completeProfile()">
+
+            <button class="btn"
+                    onclick="completeProfile()">
                 Complete Profile
             </button>
 
@@ -782,13 +988,14 @@ Popup
                     onclick="closeProfilePopup()">
                 Later
             </button>
+
         </div>
+
     </div>
+
 </div>
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+<!-- ================= MAIN ================= -->
 
 <main class="main">
 
@@ -804,12 +1011,10 @@ Popup
 
     </header>
 
+    <!-- ================= DASHBOARD ================= -->
 
-    <!-- =================================================
-         DASHBOARD
-    ================================================== -->
-
-    <section id="dashboard" class="page active">
+    <section id="dashboard"
+             class="page active">
 
         <div class="stats">
 
@@ -818,50 +1023,42 @@ Popup
                      id="statBorrowed">
                     0
                 </div>
-
                 <div class="stat-label">
                     Books Borrowed
                 </div>
             </div>
-
 
             <div class="stat">
                 <div class="stat-number"
                      id="statDue">
                     0
                 </div>
-
                 <div class="stat-label">
                     Due Soon
                 </div>
             </div>
-
 
             <div class="stat">
                 <div class="stat-number"
                      id="statHistory">
                     0
                 </div>
-
                 <div class="stat-label">
                     Returned Books
                 </div>
             </div>
-
 
             <div class="stat">
                 <div class="stat-number"
                      id="statNotifications">
                     0
                 </div>
-
                 <div class="stat-label">
-                    Notifications
+                    Inbox Messages
                 </div>
             </div>
 
         </div>
-
 
         <div class="dashboard-grid">
 
@@ -877,7 +1074,6 @@ Popup
 
             </div>
 
-
             <div class="card">
 
                 <h2 class="card-title">
@@ -891,12 +1087,16 @@ Popup
 
                 <p>
                     <strong>Patron:</strong>
-                    <span id="dashboardName">Not configured</span>
+                    <span id="dashboardName">
+                    Not configured
+                </span>
                 </p>
 
                 <p>
                     <strong>Library:</strong>
-                    <span id="dashboardLibrary">Not configured</span>
+                    <span id="dashboardLibrary">
+                    Not configured
+                </span>
                 </p>
 
             </div>
@@ -905,11 +1105,10 @@ Popup
 
     </section>
 
-    <!-- =================================================
-         I HAVE BORROWED THIS BOOK
-    ================================================== -->
+    <!-- ================= BORROW ================= -->
 
-    <section id="borrow" class="page">
+    <section id="borrow"
+             class="page">
 
         <div class="card">
 
@@ -927,11 +1126,9 @@ Popup
                             Book Title
                         </label>
 
-                        <input
-                                id="borrowTitle"
-                                type="text"
-                                required
-                                placeholder="Enter book title">
+                        <input id="borrowTitle"
+                               required
+                               placeholder="Enter book title">
 
                     </div>
 
@@ -941,11 +1138,9 @@ Popup
                             Author
                         </label>
 
-                        <input
-                                id="borrowAuthor"
-                                type="text"
-                                required
-                                placeholder="Enter author name">
+                        <input id="borrowAuthor"
+                               required
+                               placeholder="Enter author name">
 
                     </div>
 
@@ -955,11 +1150,10 @@ Popup
                             Borrowed Date
                         </label>
 
-                        <input
-                                id="borrowDate"
-                                type="date"
-                                required
-                                onchange="calculateDueDate()">
+                        <input id="borrowDate"
+                               type="date"
+                               required
+                               onchange="calculateDueDate()">
 
                     </div>
 
@@ -969,17 +1163,15 @@ Popup
                             Borrowing Period
                         </label>
 
-                        <select
-                                id="borrowPeriod"
+                        <select id="borrowPeriod"
                                 required
-                                onchange="calculateDueDate()">
+                                onchange="handleBorrowPeriodChange()">
 
                             <option value="7">
                                 7 Days
                             </option>
 
-                            <option value="14"
-                                    selected>
+                            <option value="14" selected>
                                 14 Days
                             </option>
 
@@ -991,7 +1183,27 @@ Popup
                                 30 Days
                             </option>
 
+                            <option value="custom">
+                                Custom Time
+                            </option>
+
                         </select>
+
+                    </div>
+
+                    <div class="field"
+                         id="customPeriodField"
+                         style="display:none;">
+
+                        <label>
+                            Custom Borrowing Period (Days)
+                        </label>
+
+                        <input id="customPeriod"
+                               type="number"
+                               min="1"
+                               max="3650"
+                               oninput="calculateDueDate()">
 
                     </div>
 
@@ -1001,21 +1213,17 @@ Popup
                             Automatically Calculated Due Date
                         </label>
 
-                        <input
-                                id="borrowDue"
-                                type="date"
-                                readonly>
+                        <input id="borrowDue"
+                               type="date"
+                               readonly>
 
                     </div>
 
                     <div class="field full">
 
-                        <button
-                                class="btn"
+                        <button class="btn"
                                 type="submit">
-
-                            📚 I Have Borrowed This Book
-
+                            Book Borrowed
                         </button>
 
                     </div>
@@ -1023,9 +1231,6 @@ Popup
                 </div>
 
             </form>
-
-
-            <!-- TIMER -->
 
             <div id="borrowTimer"
                  class="timer"
@@ -1041,7 +1246,6 @@ Popup
 
                 <div id="timerValue"
                      class="timer-value">
-                    00d 00h 00m 00s
                 </div>
 
             </div>
@@ -1050,12 +1254,10 @@ Popup
 
     </section>
 
+    <!-- ================= MY BOOKS ================= -->
 
-    <!-- =================================================
-         MY BOOKS
-    ================================================== -->
-
-    <section id="books" class="page">
+    <section id="books"
+             class="page">
 
         <div class="card">
 
@@ -1063,11 +1265,10 @@ Popup
                 Books I Have Borrowed
             </h2>
 
-            <input
-                    id="bookSearch"
-                    type="search"
-                    placeholder="Search your books..."
-                    oninput="renderBooks()">
+            <input id="bookSearch"
+                   type="search"
+                   placeholder="Search your books..."
+                   oninput="renderBooks()">
 
             <br><br>
 
@@ -1079,12 +1280,10 @@ Popup
 
     </section>
 
+    <!-- ================= HISTORY ================= -->
 
-    <!-- =================================================
-         HISTORY
-    ================================================== -->
-
-    <section id="history" class="page">
+    <section id="history"
+             class="page">
 
         <div class="card">
 
@@ -1100,24 +1299,60 @@ Popup
 
     </section>
 
+    <!-- ================= NOTIFICATIONS ================= -->
 
-    <!-- =================================================
-         NOTIFICATIONS
-    ================================================== -->
+    <section id="notifications"
+             class="page">
 
-    <section id="notifications" class="page">
+        <!-- SEPARATE INBOX -->
 
         <div class="card">
 
             <h2 class="card-title">
-                Notifications
+                Inbox
             </h2>
 
+            <p style="color:var(--text-muted)">
+                General BookBoomerang messages appear here.
+                Due-date reminders are kept separate below.
+            </p>
+
+            <div id="inboxList"
+                 class="inbox-list">
+            </div>
+
+        </div>
+
+        <!-- SEPARATE DUE REMINDERS -->
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Due Reminders
+            </h2>
+
+            <p style="color:var(--text-muted)">
+                Books due within 3 days and overdue books appear here.
+            </p>
+
+            <div id="dueReminderList"
+                 class="due-reminder-list">
+            </div>
+
+        </div>
+
+        <!-- NOTIFICATION SETTINGS -->
+
+        <div class="card">
+
+            <h2 class="card-title">
+                Notification Settings
+            </h2>
 
             <div class="notification">
 
                 <div class="notification-icon">
-
+                    📱
                 </div>
 
                 <div class="notification-content">
@@ -1127,17 +1362,16 @@ Popup
                     </strong>
 
                     <span>
-                        Receive library reminders on your registered phone number.
-                    </span>
+                    Receive library reminders on your registered phone number.
+                </span>
 
                 </div>
 
                 <label class="switch">
 
-                    <input
-                            type="checkbox"
-                            id="smsToggle"
-                            onchange="saveNotificationSettings()">
+                    <input id="smsToggle"
+                           type="checkbox"
+                           onchange="saveNotificationSettings()">
 
                     <span class="slider"></span>
 
@@ -1145,11 +1379,10 @@ Popup
 
             </div>
 
-
             <div class="notification">
 
                 <div class="notification-icon">
-
+                    ⏰
                 </div>
 
                 <div class="notification-content">
@@ -1159,18 +1392,17 @@ Popup
                     </strong>
 
                     <span>
-                        Receive reminders when a book is approaching its due date.
-                    </span>
+                    Show reminders for books approaching their due date.
+                </span>
 
                 </div>
 
                 <label class="switch">
 
-                    <input
-                            type="checkbox"
-                            id="dueToggle"
-                            checked
-                            onchange="saveNotificationSettings()">
+                    <input id="dueToggle"
+                           type="checkbox"
+                           checked
+                           onchange="saveNotificationSettings()">
 
                     <span class="slider"></span>
 
@@ -1178,11 +1410,10 @@ Popup
 
             </div>
 
-
             <div class="notification">
 
                 <div class="notification-icon">
-
+                    ↩️
                 </div>
 
                 <div class="notification-content">
@@ -1192,18 +1423,17 @@ Popup
                     </strong>
 
                     <span>
-                        Receive confirmation after returning a book.
-                    </span>
+                    Add a message to your Inbox after returning a book.
+                </span>
 
                 </div>
 
                 <label class="switch">
 
-                    <input
-                            type="checkbox"
-                            id="returnToggle"
-                            checked
-                            onchange="saveNotificationSettings()">
+                    <input id="returnToggle"
+                           type="checkbox"
+                           checked
+                           onchange="saveNotificationSettings()">
 
                     <span class="slider"></span>
 
@@ -1213,6 +1443,7 @@ Popup
 
         </div>
 
+        <!-- SMS -->
 
         <div class="card">
 
@@ -1221,8 +1452,8 @@ Popup
             </h2>
 
             <p style="color:var(--text-muted)">
-                Phone notifications require a backend SMS service.
-                Never put your SMS provider API key inside this HTML file.
+                Phone notifications require your backend SMS service.
+                Never place your SMS provider API key in this HTML file.
             </p>
 
             <button class="btn"
@@ -1234,12 +1465,10 @@ Popup
 
     </section>
 
+    <!-- ================= PROFILE ================= -->
 
-    <!-- =================================================
-         PROFILE
-    ================================================== -->
-
-    <section id="profile" class="page">
+    <section id="profile"
+             class="page">
 
         <div class="card">
 
@@ -1257,13 +1486,11 @@ Popup
                             Library Name
                         </label>
 
-                        <input
-                                id="profileLibrary"
-                                required
-                                placeholder="My Library">
+                        <input id="profileLibrary"
+                               required
+                               placeholder="My Library">
 
                     </div>
-
 
                     <div class="field">
 
@@ -1271,13 +1498,11 @@ Popup
                             Full Name
                         </label>
 
-                        <input
-                                id="profileName"
-                                required
-                                placeholder="Your name">
+                        <input id="profileName"
+                               required
+                               placeholder="Your name">
 
                     </div>
-
 
                     <div class="field">
 
@@ -1285,14 +1510,12 @@ Popup
                             Age
                         </label>
 
-                        <input
-                                id="profileAge"
-                                type="number"
-                                min="1"
-                                max="120">
+                        <input id="profileAge"
+                               type="number"
+                               min="1"
+                               max="120">
 
                     </div>
-
 
                     <div class="field">
 
@@ -1300,12 +1523,10 @@ Popup
                             Date of Birth
                         </label>
 
-                        <input
-                                id="profileDob"
-                                type="date">
+                        <input id="profileDob"
+                               type="date">
 
                     </div>
-
 
                     <div class="field">
 
@@ -1313,13 +1534,11 @@ Popup
                             Email
                         </label>
 
-                        <input
-                                id="profileEmail"
-                                type="email"
-                                placeholder="you@example.com">
+                        <input id="profileEmail"
+                               type="email"
+                               placeholder="you@example.com">
 
                     </div>
-
 
                     <div class="field full">
 
@@ -1327,10 +1546,9 @@ Popup
                             Phone Number
                         </label>
 
-                        <input
-                                id="profilePhone"
-                                type="tel"
-                                placeholder="+91 98765 43210">
+                        <input id="profilePhone"
+                               type="tel"
+                               placeholder="+91 98765 43210">
 
                     </div>
 
@@ -1349,12 +1567,10 @@ Popup
 
     </section>
 
+    <!-- ================= SETTINGS ================= -->
 
-    <!-- =================================================
-         SETTINGS
-    ================================================== -->
-
-    <section id="settings" class="page">
+    <section id="settings"
+             class="page">
 
         <div class="card">
 
@@ -1371,17 +1587,16 @@ Popup
                     </strong>
 
                     <span>
-                        Reduce unnecessary activity messages.
-                    </span>
+                    Reduce unnecessary activity messages.
+                </span>
 
                 </div>
 
                 <label class="switch">
 
-                    <input
-                            type="checkbox"
-                            id="compactLogging"
-                            onchange="saveSettings()">
+                    <input id="compactLogging"
+                           type="checkbox"
+                           onchange="saveSettings()">
 
                     <span class="slider"></span>
 
@@ -1391,7 +1606,6 @@ Popup
 
         </div>
 
-
         <div class="card">
 
             <h2 class="card-title">
@@ -1399,7 +1613,7 @@ Popup
             </h2>
 
             <p style="color:var(--text-muted)">
-                Delete all data belonging to the currently signed-in account.
+                Delete all data belonging to this account.
             </p>
 
             <button class="btn btn-danger"
@@ -1413,10 +1627,7 @@ Popup
 
 </main>
 
-
-<!-- =====================================================
-     AUTHENTICATION
-===================================================== -->
+<!-- ================= AUTH ================= -->
 
 <div id="authOverlay"
      class="auth-overlay">
@@ -1427,15 +1638,12 @@ Popup
             BookBoomerang.com
         </div>
 
-
-        <!-- AUTH TABS -->
-
         <div class="auth-tabs">
 
             <button id="loginTab"
                     class="active"
                     onclick="switchAuth('login')">
-                Login&raquo;
+                Login
             </button>
 
             <button id="registerTab"
@@ -1444,7 +1652,6 @@ Popup
             </button>
 
         </div>
-
 
         <!-- LOGIN -->
 
@@ -1459,11 +1666,10 @@ Popup
                         Username
                     </label>
 
-                    <input
-                            id="loginUsername"
-                            required
-                            autocomplete="username"
-                            placeholder="Enter username">
+                    <input id="loginUsername"
+                           required
+                           autocomplete="username"
+                           placeholder="Enter username">
 
                 </div>
 
@@ -1475,12 +1681,11 @@ Popup
                         Password
                     </label>
 
-                    <input
-                            id="loginPassword"
-                            type="password"
-                            required
-                            autocomplete="current-password"
-                            placeholder="Enter password">
+                    <input id="loginPassword"
+                           type="password"
+                           required
+                           autocomplete="current-password"
+                           placeholder="Enter password">
 
                 </div>
 
@@ -1500,8 +1705,7 @@ Popup
 
         </div>
 
-
-        <!-- CREATE ACCOUNT -->
+        <!-- REGISTER -->
 
         <div id="registerPanel"
              class="auth-panel">
@@ -1514,13 +1718,12 @@ Popup
                         Choose Username
                     </label>
 
-                    <input
-                            id="registerUsername"
-                            required
-                            minlength="3"
-                            maxlength="30"
-                            autocomplete="username"
-                            placeholder="Choose a username">
+                    <input id="registerUsername"
+                           required
+                           minlength="3"
+                           maxlength="30"
+                           autocomplete="username"
+                           placeholder="Choose a username">
 
                 </div>
 
@@ -1532,13 +1735,12 @@ Popup
                         Password
                     </label>
 
-                    <input
-                            id="registerPassword"
-                            type="password"
-                            required
-                            minlength="6"
-                            autocomplete="new-password"
-                            placeholder="At least 6 characters">
+                    <input id="registerPassword"
+                           type="password"
+                           required
+                           minlength="6"
+                           autocomplete="new-password"
+                           placeholder="At least 6 characters">
 
                 </div>
 
@@ -1550,13 +1752,12 @@ Popup
                         Confirm Password
                     </label>
 
-                    <input
-                            id="registerConfirm"
-                            type="password"
-                            required
-                            minlength="6"
-                            autocomplete="new-password"
-                            placeholder="Repeat your password">
+                    <input id="registerConfirm"
+                           type="password"
+                           required
+                           minlength="6"
+                           autocomplete="new-password"
+                           placeholder="Repeat your password">
 
                 </div>
 
@@ -1576,34 +1777,931 @@ Popup
 
         </div>
 
-
         <div class="auth-footer">
-            Your account is saved within this browser and cannot be seen by anyone other than you.<br>Clearing the cache can reset the portal to Initialisation mode, ALL DATA WILL BE DELETED!
+            This demo stores account data in this browser.
+            Clearing browser storage will remove the data.
         </div>
 
     </div>
 
 </div>
 
-
 <div id="toast"
      class="toast">
 </div>
 
-
 <script>
 
     /* =========================================================
-       ACCOUNT STORAGE
-    ========================================================= */
+       BOOKBOOMERANG APPLICATION
+       ========================================================= */
+    /* =========================================================
+   BOOKBOOMERANG PRO TRIAL + OFFICIAL INBOX MESSAGES
+   ========================================================= */
+
+    const PRO_TRIAL_DAYS = 30;
+
+
+    /*
+     * These are the ONLY messages that BookBoomerang
+     * is allowed to generate automatically.
+     *
+     * Due-date reminders remain separate and are NOT
+     * added to this Inbox.
+     */
+    const BOOKBOOMERANG_MESSAGE_TYPES = {
+        WELCOME: "welcome",
+        PROFILE_COMPLETE: "profile_complete",
+        BOOK_BORROWED: "book_borrowed",
+        BOOK_RETURNED: "book_returned",
+        TRIAL_STARTED: "trial_started",
+        TRIAL_ENDING: "trial_ending",
+        PRO_EXPIRED: "pro_expired"
+    };
+
+
+    /*
+     * Return the appropriate official message.
+     */
+    function getBookBoomerangMessage(type, data = {}) {
+
+        switch (type) {
+
+            case BOOKBOOMERANG_MESSAGE_TYPES.WELCOME:
+
+                return {
+                    title: "Welcome to BookBoomerang",
+                    message:
+                        "Welcome to BookBoomerang. Your library account is ready to use.",
+                    icon: "Thank You!"
+                };
+
+
+            case BOOKBOOMERANG_MESSAGE_TYPES.PROFILE_COMPLETE:
+
+                return {
+                    title: "Profile Complete",
+                    message:
+                        "Your BookBoomerang profile has been completed successfully.",
+                    icon: "Thank you for using BookBoomerang.com"
+                };
+
+
+/*
+            case BOOKBOOMERANG_MESSAGE_TYPES.TRIAL_ENDING:
+
+                return {
+                    title: "Your Pro Trial Is Ending Soon",
+                    message:
+                        `Your BookBoomerang Pro trial ends in ${data.days} day${data.days === 1 ? "" : "s"}.`,
+                    icon: ""
+                };
+
+
+            case BOOKBOOMERANG_MESSAGE_TYPES.PRO_EXPIRED:
+
+                return {
+                    title: "BookBoomerang Pro Trial Ended",
+                    message:
+                        "Your 30-day Pro trial has ended. Pro features are no longer available.",
+                    icon: ""
+                };
+                */
+ 
+
+
+            default:
+
+                return null;
+        }
+    }
+
+
+    /*
+     * Add an OFFICIAL BookBoomerang message.
+     *
+     * This replaces the old generic addInboxMessage()
+     * function for system-generated messages.
+     */
+    function sendBookBoomerangMessage(type, data = {}) {
+
+        const account = currentAccount();
+
+        if (!account) return;
+
+        const message =
+            getBookBoomerangMessage(type, data);
+
+        if (!message) return;
+
+        if (!Array.isArray(account.inbox)) {
+            account.inbox = [];
+        }
+
+        /*
+         * Prevent duplicate system messages.
+         */
+        const duplicate =
+            account.inbox.some(item =>
+                item.systemType === type &&
+                item.bookId === data.bookId &&
+                item.trialMarker === data.trialMarker
+            );
+
+        if (duplicate) return;
+
+        account.inbox.unshift({
+
+            id:
+                Date.now().toString() +
+                Math.random()
+                    .toString(36)
+                    .slice(2),
+
+            title: message.title,
+
+            message: message.message,
+
+            icon: message.icon,
+
+            systemType: type,
+
+            bookId: data.bookId || null,
+
+            trialMarker: data.trialMarker || null,
+
+            createdAt:
+                new Date().toISOString(),
+
+            read: false
+
+        });
+
+        account.inbox =
+            account.inbox.slice(0, 100);
+
+        updateCurrentAccount(account);
+
+        renderInbox();
+        renderDashboard();
+    }
+
+
+    /* =========================================================
+       PRO TRIAL
+       ========================================================= */
+
+    function startProTrial(account) {
+
+        if (!account) return;
+
+        /*
+         * Never restart an existing trial.
+         */
+        if (account.proTrialStartedAt) {
+            return;
+        }
+
+        const now = new Date();
+
+        account.proTrialStartedAt =
+            now.toISOString();
+
+        account.proTrialEndsAt =
+            new Date(
+                now.getTime() +
+                PRO_TRIAL_DAYS *
+                86400000
+            ).toISOString();
+
+        account.pro = {
+            active: true
+        };
+
+    }
+
+
+    /*
+     * Returns the current Pro status.
+     */
+    function getProStatus() {
+
+        const account = currentAccount();
+
+        if (!account) {
+
+            return {
+                active: false,
+                daysRemaining: 0
+            };
+
+        }
+
+        /*
+         * Existing accounts without a trial can be
+         * migrated here if desired.
+         */
+        if (!account.proTrialStartedAt) {
+
+            startProTrial(account);
+            updateCurrentAccount(account);
+
+        }
+
+        const end =
+            new Date(
+                account.proTrialEndsAt
+            );
+
+        const now =
+            new Date();
+
+        const difference =
+            end.getTime() -
+            now.getTime();
+
+        if (difference <= 0) {
+
+            if (
+                account.pro?.active !== false
+            ) {
+
+                account.pro = {
+                    active: false
+                };
+
+                updateCurrentAccount(account);
+
+                sendBookBoomerangMessage(
+                    BOOKBOOMERANG_MESSAGE_TYPES.PRO_EXPIRED,
+                    {
+                        trialMarker:
+                            "expired"
+                    }
+                );
+
+            }
+
+            return {
+                active: false,
+                daysRemaining: 0
+            };
+
+        }
+
+        return {
+
+            active: true,
+
+            daysRemaining:
+                Math.ceil(
+                    difference /
+                    86400000
+                )
+
+        };
+
+    }
+
+
+    /*
+     * Use this before displaying any Pro feature.
+     */
+    function hasPro() {
+
+        return getProStatus().active;
+    }
+
+
+    /*
+     * Optional helper for showing trial status.
+     */
+    function getProTrialText() {
+
+        const status =
+            getProStatus();
+
+        if (!status.active) {
+
+            return "Pro trial ended";
+
+        }
+
+        return `${status.daysRemaining} day${
+            status.daysRemaining === 1 ? "" : "s"
+        } of Pro remaining`;
+
+    }
+
+
+    /* =========================================================
+       PRO TRIAL NOTIFICATIONS
+       ========================================================= */
+
+    function checkProTrialMessages() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        const status =
+            getProStatus();
+
+        /*
+         * Five days before expiry.
+         */
+        if (
+            status.active &&
+            status.daysRemaining <= 5 &&
+            status.daysRemaining > 0
+        ) {
+
+            sendBookBoomerangMessage(
+                BOOKBOOMERANG_MESSAGE_TYPES.TRIAL_ENDING,
+                {
+                    days:
+                    status.daysRemaining,
+
+                    trialMarker:
+                        `ending-${status.daysRemaining}`
+                }
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PRO FEATURE GUARD
+       ========================================================= */
+
+    function requirePro(featureName = "This feature") {
+
+        if (hasPro()) {
+
+            return true;
+
+        }
+
+        toast(
+            `${featureName} requires BookBoomerang Pro. Your 30-day trial has ended.`
+        );
+
+        return false;
+
+    }
+    /*============================================================================================Pro Starts Here=====================================================================*/
+    /* =========================================================
+       BOOKBOOMERANG PRO FEATURES
+       ========================================================= */
+
+
+    /* =========================================================
+       PRO STATUS CARD
+       ========================================================= */
+
+    function renderProStatus() {
+
+        const account = currentAccount();
+
+        if (!account) return;
+
+        const status = getProStatus();
+
+        const existing =
+            document.getElementById("proStatusCard");
+
+        if (!existing) return;
+
+        if (status.active) {
+
+            existing.innerHTML = `
+            <div class="pro-status-active">
+                <strong>BookBoomerang Pro</strong>
+                <span>
+                    ${status.daysRemaining}
+                    day${status.daysRemaining === 1 ? "" : "s"}
+                    remaining in your trial
+                </span>
+            </div>
+        `;
+
+        } else {
+
+            existing.innerHTML = `
+            <div class="pro-status-expired">
+                <strong>BookBoomerang Pro</strong>
+                <span>Your 30-day Pro trial has ended.</span>
+            </div>
+        `;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       READING ANALYTICS
+       ========================================================= */
+
+    function getReadingAnalytics() {
+
+        if (!requirePro("Reading Analytics")) {
+            return null;
+        }
+
+        const account = currentAccount();
+
+        if (!account) return null;
+
+        const books =
+            account.books || [];
+
+        const history =
+            account.history || [];
+
+        const totalBooks =
+            books.length + history.length;
+
+        let totalBorrowDays = 0;
+
+        history.forEach(book => {
+
+            if (!book.borrowed || !book.returned) {
+                return;
+            }
+
+            const borrowed =
+                new Date(book.borrowed);
+
+            const returned =
+                new Date(book.returned);
+
+            const days =
+                Math.max(
+                    0,
+                    Math.ceil(
+                        (returned - borrowed) /
+                        86400000
+                    )
+                );
+
+            totalBorrowDays += days;
+
+        });
+
+        const averageBorrowDays =
+            history.length
+                ? Math.round(
+                    totalBorrowDays /
+                    history.length
+                )
+                : 0;
+
+        return {
+
+            currentlyBorrowed:
+            books.length,
+
+            returned:
+            history.length,
+
+            totalBooks,
+
+            averageBorrowDays
+
+        };
+
+    }
+
+
+    /* =========================================================
+       ANALYTICS PAGE
+       ========================================================= */
+
+    function showAnalytics() {
+
+        if (!requirePro("Reading Analytics")) {
+            return;
+        }
+
+        const analytics =
+            getReadingAnalytics();
+
+        if (!analytics) return;
+
+        toast(
+            `You've borrowed ${analytics.totalBooks} book${
+                analytics.totalBooks === 1 ? "" : "s"
+            } in total.`
+        );
+
+    }
+
+
+    /* =========================================================
+       ADVANCED SEARCH
+       ========================================================= */
+
+    function advancedBookSearch() {
+
+        if (!requirePro("Advanced Book Search")) {
+            return;
+        }
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        const query =
+            prompt(
+                "Search title, author, borrowed date, due date, or status:"
+            );
+
+        if (query === null) return;
+
+        const search =
+            query.trim().toLowerCase();
+
+        const books =
+            account.books || [];
+
+        const results =
+            books.filter(book => {
+
+                const status =
+                    getDueStatus(book.due).text
+                        .toLowerCase();
+
+                return (
+
+                    book.title
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    book.author
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    book.borrowed
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    book.due
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    status.includes(search)
+
+                );
+
+            });
+
+        if (!results.length) {
+
+            toast("No matching books found.");
+
+            return;
+
+        }
+
+        const container =
+            document.getElementById("booksList");
+
+        if (!container) return;
+
+        container.innerHTML =
+            results
+                .map(bookHTML)
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       EXPORT LIBRARY
+       ========================================================= */
+
+    function exportLibrary() {
+
+        if (!requirePro("Library Export")) {
+            return;
+        }
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        const exportData = {
+
+            application:
+                "BookBoomerang",
+
+            exportedAt:
+                new Date().toISOString(),
+
+            username:
+            account.username,
+
+            profile:
+                account.profile || null,
+
+            books:
+                account.books || [],
+
+            history:
+                account.history || []
+
+        };
+
+        const json =
+            JSON.stringify(
+                exportData,
+                null,
+                2
+            );
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:"application/json"
+                }
+            );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+
+        link.download =
+            "bookboomerang-library.json";
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        URL.revokeObjectURL(url);
+
+        toast("Your library has been exported.");
+
+    }
+
+
+    /* =========================================================
+       ADVANCED TIMER ACCESS
+       ========================================================= */
+
+    function startProBorrowTimer(book) {
+
+        if (!requirePro("Advanced Due-Date Timer")) {
+            return;
+        }
+
+        startBorrowTimer(book);
+
+    }
+
+
+    /* =========================================================
+       CUSTOM BORROWING PERIOD
+       ========================================================= */
+
+    function handleBorrowPeriodChange() {
+
+        const period =
+            document.getElementById("borrowPeriod");
+
+        const customField =
+            document.getElementById("customPeriodField");
+
+        const customInput =
+            document.getElementById("customPeriod");
+
+        if (!period) return;
+
+        if (period.value === "custom") {
+
+            if (!requirePro("Custom Borrowing Periods")) {
+
+                period.value = "14";
+
+                customField.style.display = "none";
+
+                customInput.required = false;
+
+                customInput.value = "";
+
+                calculateDueDate();
+
+                return;
+
+            }
+
+            customField.style.display = "flex";
+
+            customInput.required = true;
+
+        } else {
+
+            customField.style.display = "none";
+
+            customInput.required = false;
+
+            customInput.value = "";
+
+        }
+
+        calculateDueDate();
+
+    }
+
+
+    /* =========================================================
+       PRO HISTORY LIMIT
+       ========================================================= */
+
+    function saveHistoryEntry(account, entry) {
+
+        if (!account.history) {
+            account.history = [];
+        }
+
+        account.history.unshift(entry);
+
+        /*
+         * Free accounts keep only the latest 20
+         * returned books.
+         *
+         * Pro accounts keep everything.
+         */
+        if (!hasPro()) {
+
+            account.history =
+                account.history.slice(0, 20);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       PRO DASHBOARD ANALYTICS
+       ========================================================= */
+
+    function renderProAnalytics() {
+
+        const container =
+            document.getElementById(
+                "proAnalytics"
+            );
+
+        if (!container) return;
+
+        if (!hasPro()) {
+
+            container.innerHTML = `
+            <div class="pro-locked">
+                <strong>⭐ Pro Analytics</strong>
+
+                <p>
+                    Reading statistics are available
+                    during your 30-day Pro trial.
+                </p>
+
+                <button
+                    class="btn"
+                    onclick="showProInfo()">
+                    View Pro
+                </button>
+            </div>
+        `;
+
+            return;
+
+        }
+
+        const analytics =
+            getReadingAnalytics();
+
+        if (!analytics) return;
+
+        container.innerHTML = `
+        <div class="pro-analytics-grid">
+
+            <div class="pro-stat">
+                <strong>
+                    ${analytics.totalBooks}
+                </strong>
+                <span>
+                    Total Books
+                </span>
+            </div>
+
+            <div class="pro-stat">
+                <strong>
+                    ${analytics.currentlyBorrowed}
+                </strong>
+                <span>
+                    Currently Borrowed
+                </span>
+            </div>
+
+            <div class="pro-stat">
+                <strong>
+                    ${analytics.returned}
+                </strong>
+                <span>
+                    Returned
+                </span>
+            </div>
+
+            <div class="pro-stat">
+                <strong>
+                    ${analytics.averageBorrowDays}
+                </strong>
+                <span>
+                    Avg. Borrow Days
+                </span>
+            </div>
+
+        </div>
+    `;
+
+    }
+
+
+    /* =========================================================
+       PRO INFORMATION
+       ========================================================= */
+
+    function showProInfo() {
+
+        const status =
+            getProStatus();
+
+        if (status.active) {
+
+            toast(
+                `⭐ Pro is active — ${status.daysRemaining} days remaining.`
+            );
+
+        } else {
+
+            toast(
+                "Your 30-day Pro trial has ended."
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       AUTOMATIC PRO REFRESH
+       ========================================================= */
+
+    function refreshProFeatures() {
+
+        if (!getActiveUser()) {
+            return;
+        }
+
+        getProStatus();
+
+        renderProStatus();
+
+        renderProAnalytics();
+
+    }
+/*============================================================================================Pro Ends Here=====================================================================*/
+    /* =========================================================
+       STORAGE
+       ========================================================= */
 
     const ACCOUNT_PREFIX = "BBWP(SS.package)_Account_";
     const SESSION_KEY = "BBWP(SS.package)_active_user";
 
+    let borrowTimerInterval = null;
+    let dueRefreshInterval = null;
+
+
+    /* =========================================================
+       ACCOUNT HELPERS
+       ========================================================= */
 
     function normalizeUsername(username) {
 
-        return username
+        return String(username || "")
             .trim()
             .toLowerCase();
 
@@ -1612,31 +2710,40 @@ Popup
 
     function accountKey(username) {
 
-        return ACCOUNT_PREFIX + normalizeUsername(username);
+        return ACCOUNT_PREFIX +
+            normalizeUsername(username);
 
     }
 
 
     function getActiveUser() {
 
-        return localStorage.getItem(SESSION_KEY);
+        return localStorage.getItem(
+            SESSION_KEY
+        );
 
     }
 
 
     function getAccount(username) {
 
-        const raw = localStorage.getItem(
-            accountKey(username)
-        );
+        const raw =
+            localStorage.getItem(
+                accountKey(username)
+            );
 
         if (!raw) return null;
 
         try {
+
             return JSON.parse(raw);
+
         } catch {
+
             return null;
+
         }
+
     }
 
 
@@ -1650,9 +2757,30 @@ Popup
     }
 
 
+    function currentAccount() {
+
+        const username =
+            getActiveUser();
+
+        if (!username) return null;
+
+        return getAccount(username);
+
+    }
+
+
+    function updateCurrentAccount(account) {
+
+        if (!account) return;
+
+        saveAccount(account);
+
+    }
+
+
     /* =========================================================
-       AUTH TABS
-    ========================================================= */
+       AUTH
+       ========================================================= */
 
     function switchAuth(mode) {
 
@@ -1692,9 +2820,27 @@ Popup
     }
 
 
+    function hideAuthentication() {
+
+        document
+            .getElementById("authOverlay")
+            .classList.add("hidden");
+
+    }
+
+
+    function showAuthentication() {
+
+        document
+            .getElementById("authOverlay")
+            .classList.remove("hidden");
+
+    }
+
+
     /* =========================================================
        CREATE ACCOUNT
-    ========================================================= */
+       ========================================================= */
 
     function createAccount(event) {
 
@@ -1716,15 +2862,14 @@ Popup
 
         message.textContent = "";
 
-
         if (username.length < 3) {
 
             message.textContent =
                 "Username must contain at least 3 characters.";
 
             return;
-        }
 
+        }
 
         if (!/^[a-z0-9._-]+$/i.test(username)) {
 
@@ -1732,8 +2877,8 @@ Popup
                 "Username can only contain letters, numbers, dots, underscores and hyphens.";
 
             return;
-        }
 
+        }
 
         if (password.length < 6) {
 
@@ -1741,8 +2886,8 @@ Popup
                 "Password must contain at least 6 characters.";
 
             return;
-        }
 
+        }
 
         if (password !== confirm) {
 
@@ -1750,8 +2895,8 @@ Popup
                 "Passwords do not match.";
 
             return;
-        }
 
+        }
 
         if (getAccount(username)) {
 
@@ -1759,29 +2904,19 @@ Popup
                 "That username already exists.";
 
             return;
+
         }
-
-
-        /*
-            A completely empty account is created.
-
-            No books.
-            No history.
-            No profile.
-            No default data.
-        */
 
         const account = {
 
-            username:username,
+            username,
 
             /*
-                This demo stores the password locally.
-                Real applications should authenticate against
-                a secure server and never store plaintext passwords
-                in localStorage.
-            */
-            password:password,
+             * IMPORTANT:
+             * This is still a browser-only demo.
+             * Production authentication should happen server-side.
+             */
+            password,
 
             profile:null,
 
@@ -1789,18 +2924,33 @@ Popup
 
             history:[],
 
+            /*
+             * GENERAL INBOX
+             */
+            inbox:[],
+
+            /*
+             * DUE REMINDERS ARE STORED SEPARATELY.
+             */
+            dueReminders:[],
+
             notifications:{
+
                 sms:false,
+
                 due:true,
+
                 returned:true
+
             },
 
             settings:{
+
                 compactLogging:false
+
             }
 
         };
-
 
         saveAccount(account);
 
@@ -1809,26 +2959,34 @@ Popup
             username
         );
 
-
         document.getElementById("registerUsername").value = "";
         document.getElementById("registerPassword").value = "";
         document.getElementById("registerConfirm").value = "";
-
 
         hideAuthentication();
 
         initializeApplication();
 
         toast(
-            "Account created successfully. Welcome to BookBoomerang.com Web Portal!"
+            "Account created successfully. Welcome to BookBoomerang!"
         );
+
+        setTimeout(() => {
+
+            if (!account.profile) {
+
+                showProfilePopup();
+
+            }
+
+        },500);
 
     }
 
 
     /* =========================================================
        LOGIN
-    ========================================================= */
+       ========================================================= */
 
     function login(event) {
 
@@ -1847,19 +3005,17 @@ Popup
 
         message.textContent = "";
 
-
         const account =
             getAccount(username);
-
 
         if (!account) {
 
             message.textContent =
-                "Account not found. Create a new account first.";
+                "Account not found. Create an account first.";
 
             return;
-        }
 
+        }
 
         if (account.password !== password) {
 
@@ -1867,18 +3023,16 @@ Popup
                 "Incorrect password.";
 
             return;
-        }
 
+        }
 
         localStorage.setItem(
             SESSION_KEY,
             username
         );
 
-
         document.getElementById("loginUsername").value = "";
         document.getElementById("loginPassword").value = "";
-
 
         hideAuthentication();
 
@@ -1890,42 +3044,19 @@ Popup
 
 
     /* =========================================================
-       AUTH VISIBILITY
-    ========================================================= */
-
-    function hideAuthentication() {
-
-        document
-            .getElementById("authOverlay")
-            .classList.add("hidden");
-
-    }
-
-
-    function showAuthentication() {
-
-        document
-            .getElementById("authOverlay")
-            .classList.remove("hidden");
-
-    }
-
-
-    /* =========================================================
-       NAVIGATION
-    ========================================================= */
+       PAGE NAVIGATION
+       ========================================================= */
 
     const pageInfo = {
-
-        borrow:{
-            title:"Borrow a Book",
-            subtitle:"Record a borrowed book and start the due-date timer"
-        },
-
 
         dashboard:{
             title:"Dashboard",
             subtitle:"Your library overview"
+        },
+
+        borrow:{
+            title:"Borrow a Book",
+            subtitle:"Record a borrowed book and start the due-date timer"
         },
 
         books:{
@@ -1940,7 +3071,7 @@ Popup
 
         notifications:{
             title:"Notifications",
-            subtitle:"Library reminders and phone notifications"
+            subtitle:"Inbox messages and separate due reminders"
         },
 
         profile:{
@@ -1963,15 +3094,14 @@ Popup
             showAuthentication();
 
             return;
-        }
 
+        }
 
         document
             .querySelectorAll(".page")
             .forEach(element =>
                 element.classList.remove("active")
             );
-
 
         const target =
             document.getElementById(page);
@@ -1980,81 +3110,79 @@ Popup
 
         target.classList.add("active");
 
-
         document
             .querySelectorAll(".nav button")
             .forEach(element =>
                 element.classList.remove("active")
             );
 
-
         if (button) {
+
             button.classList.add("active");
+
         }
 
+        if (pageInfo[page]) {
 
-        document.getElementById("pageTitle").textContent =
-            pageInfo[page].title;
+            document.getElementById("pageTitle").textContent =
+                pageInfo[page].title;
 
-        document.getElementById("pageSubtitle").textContent =
-            pageInfo[page].subtitle;
+            document.getElementById("pageSubtitle").textContent =
+                pageInfo[page].subtitle;
 
+        }
 
-        if (page === "dashboard")
+        if (page === "dashboard") {
+
             renderDashboard();
 
-        if (page === "borrow") {
-            setBorrowDate();
-            loadBorrowTimer();
         }
 
-        if (page === "books")
+        if (page === "borrow") {
+
+            setBorrowDate();
+            loadBorrowTimer();
+
+        }
+
+        if (page === "books") {
+
             renderBooks();
 
+        }
 
-        if (page === "history")
+        if (page === "history") {
+
             renderHistory();
 
-        if (page === "profile")
+        }
+
+        if (page === "notifications") {
+
+            loadNotifications();
+            renderInbox();
+            renderDueReminders();
+
+        }
+
+        if (page === "profile") {
+
             loadProfile();
 
-        if (page === "notifications")
-            loadNotifications();
+        }
 
-        if (page === "settings")
+        if (page === "settings") {
+
             loadSettings();
 
-    }
-
-
-    /* =========================================================
-       CURRENT ACCOUNT
-    ========================================================= */
-
-    function currentAccount() {
-
-        const username =
-            getActiveUser();
-
-        if (!username) return null;
-
-        return getAccount(username);
-
-    }
-
-
-    function updateCurrentAccount(account) {
-
-        if (!account) return;
-
-        saveAccount(account);
+        }
 
     }
 
 
     /* =========================================================
        PROFILE
-    ========================================================= */
+       ========================================================= */
 
     function loadProfile() {
 
@@ -2063,10 +3191,8 @@ Popup
 
         if (!account) return;
 
-
         const profile =
             account.profile || {};
-
 
         document.getElementById("profileLibrary").value =
             profile.library || "";
@@ -2098,46 +3224,101 @@ Popup
 
         if (!account) return;
 
-
         account.profile = {
 
             library:
-                document.getElementById("profileLibrary").value.trim(),
+                document
+                    .getElementById("profileLibrary")
+                    .value
+                    .trim(),
 
             name:
-                document.getElementById("profileName").value.trim(),
+                document
+                    .getElementById("profileName")
+                    .value
+                    .trim(),
 
             age:
-            document.getElementById("profileAge").value,
+            document
+                .getElementById("profileAge")
+                .value,
 
             dob:
-            document.getElementById("profileDob").value,
+            document
+                .getElementById("profileDob")
+                .value,
 
             email:
-                document.getElementById("profileEmail").value.trim(),
+                document
+                    .getElementById("profileEmail")
+                    .value
+                    .trim(),
 
             phone:
-                document.getElementById("profilePhone").value.trim()
+                document
+                    .getElementById("profilePhone")
+                    .value
+                    .trim()
 
         };
 
-
         updateCurrentAccount(account);
 
+        closeProfilePopup();
+
         renderDashboard();
+
+        addInboxMessage(
+            "Profile updated",
+            "Your BookBoomerang profile has been updated.",
+            "👤"
+        );
 
         toast("Profile saved.");
 
     }
 
+
     /* =========================================================
-       BORROW BOOK + TIMER
-    ========================================================= */
+       PROFILE POPUP
+       ========================================================= */
 
-    let borrowTimerInterval = null;
+    function showProfilePopup() {
+
+        document
+            .getElementById("profilePopup")
+            .classList.remove("hidden");
+
+    }
 
 
-    /* Set today's date automatically */
+    function closeProfilePopup() {
+
+        document
+            .getElementById("profilePopup")
+            .classList.add("hidden");
+
+    }
+
+
+    function completeProfile() {
+
+        closeProfilePopup();
+
+        const profileButton =
+            [...document.querySelectorAll(".nav button")]
+                .find(button =>
+                    button.textContent.trim() === "Profile"
+                );
+
+        showPage("profile",profileButton);
+
+    }
+
+
+    /* =========================================================
+       BORROW DATE
+       ========================================================= */
 
     function setBorrowDate() {
 
@@ -2146,29 +3327,75 @@ Popup
 
         if (!input) return;
 
+        if (!input.value) {
 
-        const today =
-            new Date();
+            const today =
+                new Date();
 
+            const year =
+                today.getFullYear();
 
-        const year =
-            today.getFullYear();
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2,"0");
 
-        const month =
-            String(today.getMonth() + 1)
-                .padStart(2, "0");
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2,"0");
 
-        const day =
-            String(today.getDate())
-                .padStart(2, "0");
+            input.value =
+                `${year}-${month}-${day}`;
 
-
-        input.value =
-            `${year}-${month}-${day}`;
-
+        }
 
         calculateDueDate();
+
     }
+
+
+    /* =========================================================
+       BORROW PERIOD
+       ========================================================= */
+
+    function handleBorrowPeriodChange() {
+
+        const period =
+            document.getElementById("borrowPeriod");
+
+        const customField =
+            document.getElementById("customPeriodField");
+
+        const customInput =
+            document.getElementById("customPeriod");
+
+        if (!period) return;
+
+        if (period.value === "custom") {
+
+            customField.style.display = "flex";
+
+            customInput.required = true;
+
+        } else {
+
+            customField.style.display = "none";
+
+            customInput.required = false;
+
+            customInput.value = "";
+
+        }
+
+        calculateDueDate();
+
+    }
+
+
+    /* =========================================================
+       CALCULATE DUE DATE
+       ========================================================= */
 
     function calculateDueDate() {
 
@@ -2178,52 +3405,78 @@ Popup
         const period =
             document.getElementById("borrowPeriod");
 
+        const customPeriod =
+            document.getElementById("customPeriod");
+
         const dueDate =
             document.getElementById("borrowDue");
-
 
         if (!borrowedDate ||
             !period ||
             !dueDate) {
 
             return;
-        }
 
+        }
 
         if (!borrowedDate.value) {
+
+            dueDate.value = "";
+
             return;
+
         }
 
+        let days;
+
+        if (period.value === "custom") {
+
+            days =
+                parseInt(
+                    customPeriod.value,
+                    10
+                );
+
+            if (!days || days < 1) {
+
+                dueDate.value = "";
+
+                return;
+
+            }
+
+        } else {
+
+            days =
+                parseInt(
+                    period.value,
+                    10
+                );
+
+        }
 
         const date =
             new Date(
-                borrowedDate.value + "T00:00:00"
+                borrowedDate.value +
+                "T00:00:00"
             );
-
-
-        const days =
-            parseInt(
-                period.value,
-                10
-            );
-
 
         date.setDate(
             date.getDate() + days
         );
 
-
         const year =
             date.getFullYear();
 
         const month =
-            String(date.getMonth() + 1)
-                .padStart(2, "0");
+            String(
+                date.getMonth() + 1
+            ).padStart(2,"0");
 
         const day =
-            String(date.getDate())
-                .padStart(2, "0");
-
+            String(
+                date.getDate()
+            ).padStart(2,"0");
 
         dueDate.value =
             `${year}-${month}-${day}`;
@@ -2231,8 +3484,9 @@ Popup
     }
 
 
-
-    /* Borrow a book */
+    /* =========================================================
+       BORROW BOOK
+       ========================================================= */
 
     function borrowBook(event) {
 
@@ -2246,92 +3500,119 @@ Popup
             showAuthentication();
 
             return;
+
         }
 
-
         const title =
-            document.getElementById("borrowTitle")
+            document
+                .getElementById("borrowTitle")
                 .value
                 .trim();
 
         const author =
-            document.getElementById("borrowAuthor")
+            document
+                .getElementById("borrowAuthor")
                 .value
                 .trim();
 
         const borrowed =
-            document.getElementById("borrowDate")
+            document
+                .getElementById("borrowDate")
                 .value;
 
         const due =
-            document.getElementById("borrowDue")
+            document
+                .getElementById("borrowDue")
                 .value;
 
+        if (!title ||
+            !author ||
+            !borrowed ||
+            !due) {
 
-        if (!title || !author || !borrowed || !due) {
-
-            toast("Please fill in all book details.");
+            toast(
+                "Please fill in all book details."
+            );
 
             return;
+
         }
-
-
-        /* Make sure due date isn't before borrowed date */
 
         if (due < borrowed) {
 
-            toast("Due date cannot be before the borrowed date.");
+            toast(
+                "Due date cannot be before the borrowed date."
+            );
 
             return;
-        }
 
+        }
 
         const book = {
 
             id:
                 Date.now().toString(),
 
-            title:title,
+            title,
 
-            author:author,
+            author,
 
-            borrowed:borrowed,
+            borrowed,
 
-            due:due
+            due
 
         };
 
-
         if (!account.books) {
-            account.books = [];
-        }
 
+            account.books = [];
+
+        }
 
         account.books.push(book);
 
-
         updateCurrentAccount(account);
 
+        /*
+         * GENERAL INBOX MESSAGE.
+         */
 
-        /* Clear form */
+        addInboxMessage(
+            "Book borrowed",
+            `"${title}" has been added to your borrowed books.`,
+            "📚"
+        );
+
+        /*
+         * SEPARATE DUE REMINDER SYSTEM.
+         */
+
+        refreshDueReminders();
 
         document.getElementById("borrowTitle").value = "";
         document.getElementById("borrowAuthor").value = "";
-
         document.getElementById("borrowDue").value = "";
 
+        const customPeriod =
+            document.getElementById("customPeriod");
 
-        /* Start timer */
+        if (customPeriod) {
+
+            customPeriod.value = "";
+
+        }
+
+        document.getElementById("borrowPeriod").value = "14";
+
+        handleBorrowPeriodChange();
 
         startBorrowTimer(book);
-
-
-        /* Update dashboard and books */
 
         renderBooks();
 
         renderDashboard();
 
+        renderSidebarDueSoon();
 
         toast(
             `"${title}" has been added to your borrowed books.`
@@ -2341,8 +3622,8 @@ Popup
 
 
     /* =========================================================
-       START COUNTDOWN TIMER
-    ========================================================= */
+       TIMER
+       ========================================================= */
 
     function startBorrowTimer(book) {
 
@@ -2355,20 +3636,18 @@ Popup
         const timerValue =
             document.getElementById("timerValue");
 
+        if (!timer ||
+            !timerBook ||
+            !timerValue) {
 
-        if (!timer || !timerBook || !timerValue) {
             return;
-        }
 
+        }
 
         timer.style.display = "block";
 
-
         timerBook.textContent =
             book.title;
-
-
-        /* Stop previous timer */
 
         if (borrowTimerInterval) {
 
@@ -2378,87 +3657,74 @@ Popup
 
         }
 
-
         function updateTimer() {
 
             const now =
                 new Date();
 
-
             const dueDate =
                 new Date(
-                    book.due + "T23:59:59"
+                    book.due +
+                    "T23:59:59"
                 );
-
 
             const difference =
                 dueDate.getTime() -
                 now.getTime();
-
-
-            /* Book is overdue */
 
             if (difference <= 0) {
 
                 timerValue.textContent =
                     "OVERDUE";
 
-                timerValue.classList.add("overdue");
+                timerValue.classList.add(
+                    "overdue"
+                );
 
                 clearInterval(
                     borrowTimerInterval
                 );
 
                 return;
+
             }
 
-
-            timerValue.classList.remove("overdue");
-
+            timerValue.classList.remove(
+                "overdue"
+            );
 
             const totalSeconds =
                 Math.floor(
                     difference / 1000
                 );
 
-
             const days =
                 Math.floor(
                     totalSeconds / 86400
                 );
-
 
             const hours =
                 Math.floor(
                     (totalSeconds % 86400) / 3600
                 );
 
-
             const minutes =
                 Math.floor(
                     (totalSeconds % 3600) / 60
                 );
 
-
             const seconds =
                 totalSeconds % 60;
 
-
             timerValue.textContent =
-
                 `${days}d ` +
-
                 `${String(hours).padStart(2,"0")}h ` +
-
                 `${String(minutes).padStart(2,"0")}m ` +
-
                 `${String(seconds).padStart(2,"0")}s`;
 
         }
 
-
         updateTimer();
-
 
         borrowTimerInterval =
             setInterval(
@@ -2469,10 +3735,6 @@ Popup
     }
 
 
-    /* =========================================================
-       LOAD ACTIVE BOOK TIMER
-    ========================================================= */
-
     function loadBorrowTimer() {
 
         const account =
@@ -2480,39 +3742,34 @@ Popup
 
         if (!account) return;
 
-
         const books =
             account.books || [];
 
+        const timer =
+            document.getElementById("borrowTimer");
 
         if (!books.length) {
 
-            const timer =
-                document.getElementById("borrowTimer");
-
             if (timer) {
+
                 timer.style.display = "none";
+
             }
 
             return;
+
         }
 
-
-        /*
-           Show the most recently borrowed book.
-        */
-
-        const latestBook =
-            books[books.length - 1];
-
-
-        startBorrowTimer(latestBook);
+        startBorrowTimer(
+            books[books.length - 1]
+        );
 
     }
 
+
     /* =========================================================
        BOOKS
-    ========================================================= */
+       ========================================================= */
 
     function renderBooks() {
 
@@ -2521,28 +3778,28 @@ Popup
 
         if (!account) return;
 
-
         const container =
             document.getElementById("booksList");
 
-
         const search =
-            document.getElementById("bookSearch")
+            document
+                .getElementById("bookSearch")
                 ?.value
                 .trim()
                 .toLowerCase() || "";
 
-
         const books =
             account.books || [];
 
-
         const filtered =
             books.filter(book =>
-                book.title.toLowerCase().includes(search) ||
-                book.author.toLowerCase().includes(search)
+                book.title
+                    .toLowerCase()
+                    .includes(search) ||
+                book.author
+                    .toLowerCase()
+                    .includes(search)
             );
-
 
         if (!filtered.length) {
 
@@ -2552,11 +3809,13 @@ Popup
              </div>`;
 
             return;
+
         }
 
-
         container.innerHTML =
-            filtered.map(bookHTML).join("");
+            filtered
+                .map(bookHTML)
+                .join("");
 
     }
 
@@ -2565,7 +3824,6 @@ Popup
 
         const status =
             getDueStatus(book.due);
-
 
         return `
         <div class="book">
@@ -2577,19 +3835,22 @@ Popup
                 </h3>
 
                 <p>
-                    Author: ${escapeHTML(book.author)}
+                    Author:
+                    ${escapeHTML(book.author)}
                 </p>
 
                 <p>
-                    Borrowed: ${escapeHTML(book.borrowed)}
+                    Borrowed:
+                    ${escapeHTML(book.borrowed)}
                 </p>
 
                 <p>
-                    Due: ${escapeHTML(book.due)}
+                    Due:
+                    ${escapeHTML(book.due)}
                 </p>
 
                 <span class="badge ${status.class}">
-                    ${status.text}
+                    ${escapeHTML(status.text)}
                 </span>
 
             </div>
@@ -2606,51 +3867,90 @@ Popup
     }
 
 
-    function getDueStatus(date) {
+    /* =========================================================
+       DUE STATUS
+       ========================================================= */
+
+    function getDaysUntilDue(date) {
 
         const today =
             new Date();
 
-        today.setHours(0,0,0,0);
-
+        today.setHours(
+            0,0,0,0
+        );
 
         const due =
-            new Date(date + "T00:00:00");
-
-
-        const days =
-            Math.ceil(
-                (due - today) / 86400000
+            new Date(
+                date +
+                "T00:00:00"
             );
 
+        return Math.ceil(
+            (due - today) /
+            86400000
+        );
+
+    }
+
+
+    function getDueStatus(date) {
+
+        const days =
+            getDaysUntilDue(date);
 
         if (days < 0) {
 
             return {
+
                 text:"Overdue",
+
                 class:"badge-red"
+
             };
 
         }
 
+        if (days === 0) {
+
+            return {
+
+                text:"Due today",
+
+                class:"badge-orange"
+
+            };
+
+        }
 
         if (days <= 3) {
 
             return {
-                text:`Due in ${days} day${days === 1 ? "" : "s"}`,
+
+                text:
+                    `Due in ${days} day${days === 1 ? "" : "s"}`,
+
                 class:"badge-orange"
+
             };
 
         }
 
-
         return {
-            text:`Due in ${days} days`,
+
+            text:
+                `Due in ${days} days`,
+
             class:"badge-green"
+
         };
 
     }
 
+
+    /* =========================================================
+       RETURN BOOK
+       ========================================================= */
 
     function returnBook(id) {
 
@@ -2659,26 +3959,25 @@ Popup
 
         if (!account) return;
 
-
         const index =
             account.books.findIndex(
-                book => String(book.id) === String(id)
+                book =>
+                    String(book.id) ===
+                    String(id)
             );
 
-
         if (index === -1) return;
-
 
         const book =
             account.books[index];
 
-
         if (!confirm(
             `Return "${book.title}"?`
         )) {
-            return;
-        }
 
+            return;
+
+        }
 
         account.history.unshift({
 
@@ -2691,11 +3990,35 @@ Popup
 
         });
 
-
-        account.books.splice(index,1);
-
+        account.books.splice(
+            index,
+            1
+        );
 
         updateCurrentAccount(account);
+
+        /*
+         * RETURN CONFIRMATION GOES INTO
+         * GENERAL INBOX ONLY.
+         */
+
+        if (
+            account.notifications?.returned !== false
+        ) {
+
+            addInboxMessage(
+                "Book returned",
+                `"${book.title}" was successfully returned.`,
+                "↩️"
+            );
+
+        }
+
+        /*
+         * Remove its due reminder.
+         */
+
+        refreshDueReminders();
 
         renderBooks();
 
@@ -2703,6 +4026,9 @@ Popup
 
         renderDashboard();
 
+        renderSidebarDueSoon();
+
+        loadBorrowTimer();
 
         toast(
             `"${book.title}" returned successfully.`
@@ -2713,7 +4039,7 @@ Popup
 
     /* =========================================================
        HISTORY
-    ========================================================= */
+       ========================================================= */
 
     function renderHistory() {
 
@@ -2722,14 +4048,11 @@ Popup
 
         if (!account) return;
 
-
         const container =
             document.getElementById("historyList");
 
-
         const history =
             account.history || [];
-
 
         if (!history.length) {
 
@@ -2739,11 +4062,12 @@ Popup
              </div>`;
 
             return;
+
         }
 
-
         container.innerHTML =
-            history.map(book => `
+            history
+                .map(book => `
 
             <div class="book">
 
@@ -2754,33 +4078,37 @@ Popup
                     </h3>
 
                     <p>
-                        Author: ${escapeHTML(book.author)}
+                        Author:
+                        ${escapeHTML(book.author)}
                     </p>
 
                     <p>
-                        Borrowed: ${escapeHTML(book.borrowed)}
+                        Borrowed:
+                        ${escapeHTML(book.borrowed)}
                     </p>
 
                     <p>
-                        Returned: ${escapeHTML(book.returned)}
+                        Returned:
+                        ${escapeHTML(book.returned)}
                     </p>
 
                     <span class="badge badge-green">
-                        ✓ Returned
+                        Returned
                     </span>
 
                 </div>
 
             </div>
 
-        `).join("");
+        `)
+                .join("");
 
     }
 
 
     /* =========================================================
        DASHBOARD
-    ========================================================= */
+       ========================================================= */
 
     function renderDashboard() {
 
@@ -2789,71 +4117,69 @@ Popup
 
         if (!account) return;
 
-
         const profile =
             account.profile || {};
-
 
         const books =
             account.books || [];
 
-
         const history =
             account.history || [];
 
+        const inbox =
+            account.inbox || [];
 
-        document.getElementById("statBorrowed").textContent =
+        const dueBooks =
+            books.filter(book =>
+                getDaysUntilDue(book.due) <= 3
+            );
+
+        document.getElementById(
+            "statBorrowed"
+        ).textContent =
             books.length;
 
-
-        document.getElementById("statHistory").textContent =
+        document.getElementById(
+            "statHistory"
+        ).textContent =
             history.length;
 
+        document.getElementById(
+            "statDue"
+        ).textContent =
+            dueBooks.length;
 
-        const dueSoon =
-            books.filter(book => {
+        /*
+         * IMPORTANT:
+         * Inbox count is NOT due reminder count.
+         */
 
-                const today =
-                    new Date();
+        document.getElementById(
+            "statNotifications"
+        ).textContent =
+            inbox.length;
 
-                today.setHours(0,0,0,0);
-
-                const due =
-                    new Date(book.due + "T00:00:00");
-
-                const days =
-                    Math.ceil(
-                        (due - today) / 86400000
-                    );
-
-                return days >= 0 && days <= 3;
-
-            });
-
-
-        document.getElementById("statDue").textContent =
-            dueSoon.length;
-
-
-        document.getElementById("statNotifications").textContent =
-            dueSoon.length;
-
-
-        document.getElementById("dashboardUsername").textContent =
+        document.getElementById(
+            "dashboardUsername"
+        ).textContent =
             account.username;
 
+        document.getElementById(
+            "dashboardName"
+        ).textContent =
+            profile.name ||
+            "Not configured";
 
-        document.getElementById("dashboardName").textContent =
-            profile.name || "Not configured";
-
-
-        document.getElementById("dashboardLibrary").textContent =
-            profile.library || "Not configured";
-
+        document.getElementById(
+            "dashboardLibrary"
+        ).textContent =
+            profile.library ||
+            "Not configured";
 
         const container =
-            document.getElementById("dashboardBooks");
-
+            document.getElementById(
+                "dashboardBooks"
+            );
 
         if (!books.length) {
 
@@ -2863,11 +4189,12 @@ Popup
              </div>`;
 
             return;
+
         }
 
-
         container.innerHTML =
-            books.slice(0,3)
+            books
+                .slice(0,3)
                 .map(bookHTML)
                 .join("");
 
@@ -2875,8 +4202,524 @@ Popup
 
 
     /* =========================================================
-       NOTIFICATIONS
-    ========================================================= */
+       GENERAL INBOX
+       ========================================================= */
+
+    function addInboxMessage(
+        title,
+        message,
+        icon = "Notifications from BookBoomerang.com"
+    ) {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        if (!account.inbox) {
+
+            account.inbox = [];
+
+        }
+
+        account.inbox.unshift({
+
+            id:
+                Date.now().toString() +
+                Math.random()
+                    .toString(36)
+                    .slice(2),
+
+            title,
+
+            message,
+
+            icon,
+
+            createdAt:
+                new Date().toISOString(),
+
+            read:false
+
+        });
+
+        /*
+         * Keep Inbox reasonably small.
+         */
+
+        account.inbox =
+            account.inbox.slice(
+                0,
+                100
+            );
+
+        updateCurrentAccount(account);
+
+        renderInbox();
+
+        renderDashboard();
+
+    }
+
+
+    function renderInbox() {
+
+        const account =
+            currentAccount();
+
+        const container =
+            document.getElementById(
+                "inboxList"
+            );
+
+        if (!container) return;
+
+        if (!account) {
+
+            container.innerHTML =
+                `<div class="empty">
+                Sign in to view your Inbox.
+             </div>`;
+
+            return;
+
+        }
+
+        const inbox =
+            account.inbox || [];
+
+        if (!inbox.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                Your Inbox is empty.
+             </div>`;
+
+            return;
+
+        }
+
+        container.innerHTML =
+            inbox
+                .map(message => {
+
+                    return `
+
+                <div class="inbox-message ${message.read ? "" : "unread"}">
+
+                    <div class="inbox-icon">
+                        ${escapeHTML(message.icon || "From BookBoomerang.com")}
+                    </div>
+
+                    <div class="inbox-content">
+
+                        <strong>
+                            ${escapeHTML(message.title)}
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(message.message)}
+                        </span>
+
+                        <div class="inbox-time">
+                            ${formatDateTime(message.createdAt)}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+                })
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       DUE REMINDERS
+       ========================================================= */
+
+    function refreshDueReminders() {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        /*
+         * The due-reminder list is DERIVED from books.
+         *
+         * It is deliberately NOT stored in the general Inbox.
+         */
+
+        const books =
+            account.books || [];
+
+        const dueBooks =
+            books.filter(book => {
+
+                return getDaysUntilDue(book.due) <= 3;
+
+            });
+
+        account.dueReminders =
+            dueBooks.map(book => {
+
+                const days =
+                    getDaysUntilDue(book.due);
+
+                return {
+
+                    bookId:book.id,
+
+                    title:book.title,
+
+                    author:book.author,
+
+                    due:book.due,
+
+                    daysLeft:days
+
+                };
+
+            });
+
+        updateCurrentAccount(account);
+
+        renderDueReminders();
+
+        renderSidebarDueSoon();
+
+        renderDashboard();
+
+    }
+
+
+    function renderDueReminders() {
+
+        const account =
+            currentAccount();
+
+        const container =
+            document.getElementById(
+                "dueReminderList"
+            );
+
+        if (!container) return;
+
+        if (!account) {
+
+            container.innerHTML =
+                `<div class="empty">
+                Sign in to view due reminders.
+             </div>`;
+
+            return;
+
+        }
+
+        /*
+         * Always calculate from current books.
+         * This prevents stale reminders.
+         */
+
+        const books =
+            account.books || [];
+
+        const dueBooks =
+            books
+                .filter(book =>
+                    getDaysUntilDue(book.due) <= 3
+                )
+                .sort(
+                    (a,b) =>
+                        getDaysUntilDue(a.due) -
+                        getDaysUntilDue(b.due)
+                );
+
+        if (!dueBooks.length) {
+
+            container.innerHTML =
+                `<div class="empty">
+                🎉 No books are due soon.
+             </div>`;
+
+            return;
+
+        }
+
+        container.innerHTML =
+            dueBooks
+                .map(book => {
+
+                    const days =
+                        getDaysUntilDue(
+                            book.due
+                        );
+
+                    const overdue =
+                        days < 0;
+
+                    let status;
+
+                    if (overdue) {
+
+                        const amount =
+                            Math.abs(days);
+
+                        status =
+                            `${amount} day${amount === 1 ? "" : "s"} overdue`;
+
+                    } else if (days === 0) {
+
+                        status =
+                            "Due today";
+
+                    } else if (days === 1) {
+
+                        status =
+                            "Due tomorrow";
+
+                    } else {
+
+                        status =
+                            `Due in ${days} days`;
+
+                    }
+
+                    return `
+
+                <div class="due-reminder ${overdue ? "overdue" : ""}">
+
+                    <div class="due-reminder-icon">
+                        ${overdue ? "⚠️" : "⏰"}
+                    </div>
+
+                    <div class="due-reminder-content">
+
+                        <strong>
+                            ${escapeHTML(book.title)}
+                        </strong>
+
+                        <span>
+                            ${escapeHTML(book.author)}
+                            <br>
+                            ${escapeHTML(status)}
+                            <br>
+                            Due:
+                            ${escapeHTML(book.due)}
+                        </span>
+
+                        <div class="due-reminder-time">
+                            Automatic due-date reminder
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+
+                })
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       SIDEBAR DUE SOON
+       ========================================================= */
+
+    function renderSidebarDueSoon() {
+
+        const account =
+            currentAccount();
+
+        const container =
+            document.getElementById(
+                "sidebarDueList"
+            );
+
+        const count =
+            document.getElementById(
+                "sidebarDueCount"
+            );
+
+        if (!container || !count) return;
+
+        if (!account) {
+
+            count.textContent = "0";
+
+            container.innerHTML =
+                `<div class="due-soon-empty">
+                Sign in to see reminders.
+             </div>`;
+
+            return;
+
+        }
+
+        const books =
+            account.books || [];
+
+        const dueBooks =
+            books
+                .map(book => ({
+
+                    ...book,
+
+                    daysLeft:
+                        getDaysUntilDue(
+                            book.due
+                        )
+
+                }))
+                .filter(book =>
+                    book.daysLeft <= 3
+                )
+                .sort(
+                    (a,b) =>
+                        a.daysLeft -
+                        b.daysLeft
+                );
+
+        count.textContent =
+            dueBooks.length;
+
+        if (!dueBooks.length) {
+
+            container.innerHTML =
+                `<div class="due-soon-empty">
+                No books due soon.
+             </div>`;
+
+            return;
+
+        }
+
+        container.innerHTML =
+            dueBooks
+                .map(book => {
+
+                    const overdue =
+                        book.daysLeft < 0;
+
+                    let daysText;
+
+                    if (overdue) {
+
+                        const amount =
+                            Math.abs(
+                                book.daysLeft
+                            );
+
+                        daysText =
+                            `${amount} day${amount === 1 ? "" : "s"} overdue`;
+
+                    } else if (
+                        book.daysLeft === 0
+                    ) {
+
+                        daysText =
+                            "Due today";
+
+                    } else if (
+                        book.daysLeft === 1
+                    ) {
+
+                        daysText =
+                            "Due tomorrow";
+
+                    } else {
+
+                        daysText =
+                            `Due in ${book.daysLeft} days`;
+
+                    }
+
+                    return `
+
+                    <div
+                        class="due-soon-item ${overdue ? "overdue" : ""}"
+                        onclick="openDueBook('${escapeHTML(book.id)}')">
+
+                        <div class="due-soon-book">
+                            ${escapeHTML(book.title)}
+                        </div>
+
+                        <div class="due-soon-days">
+                            ${escapeHTML(daysText)}
+                        </div>
+
+                        <div class="due-soon-date">
+                            Due: ${escapeHTML(book.due)}
+                        </div>
+
+                    </div>
+
+                `;
+
+                })
+                .join("");
+
+    }
+
+
+    function openDueBook(id) {
+
+        const account =
+            currentAccount();
+
+        if (!account) return;
+
+        const book =
+            account.books.find(
+                item =>
+                    String(item.id) ===
+                    String(id)
+            );
+
+        if (!book) return;
+
+        const button =
+            [...document.querySelectorAll(".nav button")]
+                .find(button =>
+                    button.textContent.trim() ===
+                    "My Books"
+                );
+
+        showPage(
+            "books",
+            button
+        );
+
+        setTimeout(() => {
+
+            const search =
+                document.getElementById(
+                    "bookSearch"
+                );
+
+            if (search) {
+
+                search.value =
+                    book.title;
+
+                renderBooks();
+
+            }
+
+        },50);
+
+    }
+
+
+    /* =========================================================
+       NOTIFICATION SETTINGS
+       ========================================================= */
 
     function loadNotifications() {
 
@@ -2885,20 +4728,22 @@ Popup
 
         if (!account) return;
 
-
         const settings =
             account.notifications || {};
 
-
-        document.getElementById("smsToggle").checked =
+        document.getElementById(
+            "smsToggle"
+        ).checked =
             settings.sms === true;
 
-
-        document.getElementById("dueToggle").checked =
+        document.getElementById(
+            "dueToggle"
+        ).checked =
             settings.due !== false;
 
-
-        document.getElementById("returnToggle").checked =
+        document.getElementById(
+            "returnToggle"
+        ).checked =
             settings.returned !== false;
 
     }
@@ -2911,72 +4756,134 @@ Popup
 
         if (!account) return;
 
-
         account.notifications = {
 
             sms:
-            document.getElementById("smsToggle").checked,
+            document.getElementById(
+                "smsToggle"
+            ).checked,
 
             due:
-            document.getElementById("dueToggle").checked,
+            document.getElementById(
+                "dueToggle"
+            ).checked,
 
             returned:
-            document.getElementById("returnToggle").checked
+            document.getElementById(
+                "returnToggle"
+            ).checked
 
         };
 
-
         updateCurrentAccount(account);
 
-        toast("Notification preferences saved.");
+        toast(
+            "Notification preferences saved."
+        );
 
     }
 
 
+    /* =========================================================
+       SMS
+       ========================================================= */
+
     async function sendTestSMS() {
-        const account = currentAccount();
+
+        const account =
+            currentAccount();
+
         if (!account) return;
 
-        const phone = account.profile?.phone;
+        const phone =
+            account.profile?.phone;
 
         if (!phone) {
-            toast("Add your phone number in Profile first.");
+
+            toast(
+                "Add your phone number in Profile first."
+            );
+
             return;
+
         }
 
         try {
-            // FIX: Change this to your full, absolute Vercel deployment URL
-            const VERCEL_URL = "https://bookboomerang.vercel.app";
 
-            const response = await fetch(`${VERCEL_URL}/api/notify`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    subscriberId: phone,
-                    message: "BB web Portal test notification."
-                })
-            });
+            /*
+             * Change this to your actual Vercel
+             * deployment URL.
+             */
 
-            const result = await response.json();
+            const VERCEL_URL =
+                "https://bookboomerang.vercel.app";
 
-            if (response.ok && result.success) {
-                toast(`Success! Test SMS notification triggered for ${phone}.`);
+            const response =
+                await fetch(
+                    `${VERCEL_URL}/api/notify`,
+                    {
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                subscriberId:phone,
+
+                                message:
+                                    "BookBoomerang test notification."
+
+                            })
+
+                    }
+                );
+
+            const result =
+                await response.json();
+
+            if (
+                response.ok &&
+                result.success
+            ) {
+
+                toast(
+                    `Test notification triggered for ${phone}.`
+                );
+
             } else {
-                toast(`Failed to send SMS: ${result.error || 'Unknown backend error'}`);
-            }
-        } catch (error) {
-            console.error("Network Error:", error);
-            toast("Failed to connect to /api/notify. Ensure your server is running.");
-        }
-    }
 
+                toast(
+                    `Failed to send SMS: ${
+                        result.error ||
+                        "Unknown backend error"
+                    }`
+                );
+
+            }
+
+        } catch(error) {
+
+            console.error(
+                "Network Error:",
+                error
+            );
+
+            toast(
+                "Failed to connect to /api/notify."
+            );
+
+        }
+
+    }
 
 
     /* =========================================================
        SETTINGS
-    ========================================================= */
+       ========================================================= */
 
     function loadSettings() {
 
@@ -2985,13 +4892,13 @@ Popup
 
         if (!account) return;
 
-
         const settings =
             account.settings || {};
 
-
-        document.getElementById("compactLogging").checked =
-            settings.compact === true;
+        document.getElementById(
+            "compactLogging"
+        ).checked =
+            settings.compactLogging === true;
 
     }
 
@@ -3003,40 +4910,59 @@ Popup
 
         if (!account) return;
 
-
         account.settings = {
 
-            compact:
-            document.getElementById("compactLogging").checked
+            compactLogging:
+            document.getElementById(
+                "compactLogging"
+            ).checked
 
         };
 
-
         updateCurrentAccount(account);
 
-        toast("Settings saved.");
+        toast(
+            "Settings saved."
+        );
 
     }
 
 
     /* =========================================================
        SIGN OUT
-    ========================================================= */
+       ========================================================= */
 
     function signOut() {
 
         if (!getActiveUser()) return;
 
+        if (!confirm(
+            "Sign out of BookBoomerang.com?"
+        )) {
 
-        if (!confirm("Sign out of BookBoomerang.com?")) {
             return;
-        }
 
+        }
 
         localStorage.removeItem(
             SESSION_KEY
         );
 
+        if (borrowTimerInterval) {
+
+            clearInterval(
+                borrowTimerInterval
+            );
+
+        }
+
+        if (dueRefreshInterval) {
+
+            clearInterval(
+                dueRefreshInterval
+            );
+
+        }
 
         location.reload();
 
@@ -3045,7 +4971,7 @@ Popup
 
     /* =========================================================
        DELETE ACCOUNT
-    ========================================================= */
+       ========================================================= */
 
     function deleteAccount() {
 
@@ -3054,25 +4980,20 @@ Popup
 
         if (!username) return;
 
-
         const confirmed =
             confirm(
-                "This permanently deletes your account, books, history and profile from this browser. Continue?"
+                "This permanently deletes your account, books, history, Inbox, due reminders and profile from this browser. Continue?"
             );
 
-
         if (!confirmed) return;
-
 
         localStorage.removeItem(
             accountKey(username)
         );
 
-
         localStorage.removeItem(
             SESSION_KEY
         );
-
 
         location.reload();
 
@@ -3081,7 +5002,7 @@ Popup
 
     /* =========================================================
        UTILITIES
-    ========================================================= */
+       ========================================================= */
 
     function escapeHTML(value) {
 
@@ -3095,22 +5016,45 @@ Popup
     }
 
 
+    function formatDateTime(value) {
+
+        if (!value) return "";
+
+        const date =
+            new Date(value);
+
+        if (Number.isNaN(
+            date.getTime()
+        )) {
+
+            return "";
+
+        }
+
+        return date.toLocaleString();
+
+    }
+
+
     function toast(message) {
 
         const element =
-            document.getElementById("toast");
-
+            document.getElementById(
+                "toast"
+            );
 
         element.textContent =
             message;
 
-
-        element.classList.add("show");
-
+        element.classList.add(
+            "show"
+        );
 
         setTimeout(() => {
 
-            element.classList.remove("show");
+            element.classList.remove(
+                "show"
+            );
 
         },3000);
 
@@ -3119,25 +5063,23 @@ Popup
 
     /* =========================================================
        INITIALIZATION
-    ========================================================= */
+       ========================================================= */
 
     function initializeApplication() {
 
         const username =
             getActiveUser();
 
-
         if (!username) {
 
             showAuthentication();
 
             return;
-        }
 
+        }
 
         const account =
             currentAccount();
-
 
         if (!account) {
 
@@ -3148,8 +5090,49 @@ Popup
             showAuthentication();
 
             return;
+
         }
 
+        /*
+         * Migration for accounts created
+         * with the previous version.
+         */
+
+        if (!Array.isArray(account.inbox)) {
+
+            account.inbox = [];
+
+        }
+
+        if (!Array.isArray(account.dueReminders)) {
+
+            account.dueReminders = [];
+
+        }
+
+        if (!account.notifications) {
+
+            account.notifications = {
+
+                sms:false,
+                due:true,
+                returned:true
+
+            };
+
+        }
+
+        if (!account.settings) {
+
+            account.settings = {
+
+                compactLogging:false
+
+            };
+
+        }
+
+        updateCurrentAccount(account);
 
         hideAuthentication();
 
@@ -3161,228 +5144,59 @@ Popup
 
         loadProfile();
 
-        loadBorrowTimer();
-
-
         loadNotifications();
 
         loadSettings();
 
+        setBorrowDate();
+
+        loadBorrowTimer();
+
+        refreshDueReminders();
+
+        renderInbox();
+
+        renderDueReminders();
+
+        renderSidebarDueSoon();
+
+        /*
+         * Refresh due status periodically.
+         *
+         * This does NOT create Inbox messages.
+         */
+
+        if (dueRefreshInterval) {
+
+            clearInterval(
+                dueRefreshInterval
+            );
+
+        }
+
+        dueRefreshInterval =
+            setInterval(() => {
+
+                if (getActiveUser()) {
+
+                    refreshDueReminders();
+
+                }
+
+            },60000);
+
     }
 
-    //POPUP JS
-    function navigateToPage(targetPage) {
-        const user = localStorage.getItem("activeSessionUser");
-
-        if (!user) {
-            openAuthModal("login");
-            return;
-        }
-
-        const savedProfile = localStorage.getItem(`profile_${user}`);
-
-        // Reset menu buttons
-        document.querySelectorAll(".menu-item").forEach(item => {
-            item.classList.remove("active");
-        });
-
-        // Hide existing pages
-        document.getElementById("pageDashboard")?.classList.add("hidden");
-        document.getElementById("pageSettings")?.classList.add("hidden");
-
-        // Dashboard
-        if (targetPage === "dashboard") {
-
-            if (!savedProfile) {
-                showProfilePopup();
-                navigateToPage("profile");
-                return;
-            }
-
-            document.getElementById("menuDash")?.classList.add("active");
-            document.getElementById("pageDashboard")?.classList.remove("hidden");
-
-            const profile = JSON.parse(savedProfile);
-
-            document.getElementById("main-title").innerText =
-                "Welcome back, " + profile.name;
-
-            renderDashboardMetrics(profile);
-
-            return;
-        }
-
-        // Profile
-        if (targetPage === "profile") {
-
-            document.getElementById("menuProfile")?.classList.add("active");
-
-            document.getElementById("main-title").innerText =
-                "My Profile";
-
-            document.getElementById("target-display").innerText =
-                "Manage your library member information.";
-
-            // Your existing settings/profile form is used here
-            document.getElementById("pageSettings")?.classList.remove("hidden");
-
-            if (savedProfile) {
-                loadProfileIntoFields(JSON.parse(savedProfile));
-            }
-
-            return;
-        }
-
-        // Settings
-        if (targetPage === "settings") {
-
-            document.getElementById("menuSettings")?.classList.add("active");
-
-            document.getElementById("main-title").innerText =
-                "Portal Settings";
-
-            document.getElementById("target-display").innerText =
-                "Manage your portal preferences.";
-
-            document.getElementById("pageSettings")?.classList.remove("hidden");
-
-            return;
-        }
-
-        // Future pages
-        if (targetPage === "books") {
-            document.getElementById("menuBooks")?.classList.add("active");
-
-            document.getElementById("main-title").innerText =
-                "My Books";
-
-            document.getElementById("target-display").innerText =
-                "Books currently borrowed from the library.";
-
-            return;
-        }
-
-        if (targetPage === "history") {
-            document.getElementById("menuHistory")?.classList.add("active");
-
-            document.getElementById("main-title").innerText =
-                "Borrowing History";
-
-            document.getElementById("target-display").innerText =
-                "Your previous library borrowing records.";
-
-            return;
-        }
-
-        if (targetPage === "notifications") {
-            document.getElementById("menuNotifications")?.classList.add("active");
-
-            document.getElementById("main-title").innerText =
-                "Notifications";
-
-            document.getElementById("target-display").innerText =
-                "Library notifications and alerts.";
-
-            return;
-        }
-    }
 
     /* =========================================================
        START
-    ========================================================= */
+       ========================================================= */
 
     initializeApplication();
+    sendBookBoomerangMessage(
+        BOOKBOOMERANG_MESSAGE_TYPES.WELCOME
+    );
 
-    </script>
-<script>
-
-    // Wait for the DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', () => {
-        // FIX: Directly find the button using its specific ID
-        const testButton = document.getElementById('sendEmailBtn');
-
-        if (testButton) {
-            testButton.addEventListener('click', async (e) => {
-                e.preventDefault();
-
-                // Find the Email input field in your Patron Profile section
-                const emailInput = Array.from(document.querySelectorAll('input')).find(input => {
-                    return input.type === 'email' ||
-                        input.placeholder?.toLowerCase().includes('email') ||
-                        input.previousElementSibling?.textContent?.toLowerCase().includes('email');
-                });
-
-                const userEmail = emailInput ? emailInput.value.trim() : '';
-
-                // Validation check
-                if (!userEmail) {
-                    alert('Please enter an Email address in the Patron Profile form first!');
-                    return;
-                }
-
-                // Change button state visually to indicate progress
-                const originalText = testButton.textContent;
-                testButton.textContent = 'Sending...';
-                testButton.disabled = true;
-
-                try {
-                    // Send request to your Vercel Serverless Function (/api/notify)
-                    const response = await fetch('/api/notify', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            subscriberId: userEmail, // Passing the email as the subscriber identifier
-                            message: "Your BookBoomerang notification system is officially connected!"
-                        }),
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok && result.success) {
-                        alert(`Success! Test email notification triggered for ${userEmail}.`);
-                    } else {
-                        alert(`Failed to send notification: ${result.error || 'Unknown backend error'}`);
-                    }
-                } catch (error) {
-                    console.error('Network Error:', error);
-                    alert('Failed to connect to /api/notify. Ensure your local environment or deployment is fully running.');
-                } finally {
-                    // Reset button state
-                    testButton.textContent = originalText;
-                    testButton.disabled = false;
-                }
-            });
-        } else {
-            console.warn("Could not find an element with id='sendEmailBtn' on this page.");
-        }
-    });
-
-</script>
-
-<!-- 1. Create the matching target node placeholder container -->
-<div id="notification-inbox"></div>
-
-<!-- 2. Clean modern script module execution block -->
-<script type="module">
-    // FIX: Pointing to the absolute compiled UI asset file path avoids CORS redirects entirely
-    import { NovuUI } from "https://unpkg.com";
-
-    // Initialise the Inbox service instance
-    const novu = new NovuUI({
-        options: {
-            applicationIdentifier: "17vYr1sxH9r9",
-            subscriber: "6abfc6c743a1902ff22adf89"
-        }
-    });
-
-    // Inject the interactive user alert component cleanly
-    novu.mountComponent({
-        name: "Inbox",
-        props: {},
-        element: document.getElementById("notification-inbox")
-    });
 </script>
 
 </body>
